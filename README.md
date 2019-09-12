@@ -1,12 +1,12 @@
 # escuelajs-reto-03
 Reto 3 Septiembre 14: Curso de Fundamentos de JavaScript
 
-# Install
+# Instalación
 
 ```
 npm install
 ```
-# Run
+# Ejecución
 
 ```
 npm run start
