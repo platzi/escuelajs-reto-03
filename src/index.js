@@ -11,7 +11,7 @@ function fetchData(url_api) {
           resolve(JSON.parse(xhttp.responseText));
         }
         else {
-          reject(url_api)
+          reject(new Error ('Hola, tienes un error'))
         }
       }
     }
@@ -37,6 +37,6 @@ fetchData(API)
   })
   })
 })
-.catch(function (URL) {
-  console.log('Hola tienes un error');
+.catch(function (error) {
+  console.error(error);
 });
