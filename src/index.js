@@ -8,8 +8,15 @@
  * 
  * El código de esta versión es una refactorización
  * luego de la revisión de el profesor Adan.
+ * Le pregunté si era una buena práctica usar variables globales
+ * para guardar los datos de cada llamada al API.
+ * 
  * Él me recomendó evitar el uso de variables globales,
- * pues le pregunté si era una buena práctica.
+ * puesto que comprometen la seguridad de la aplicación.
+ * 
+ * Me recomendó usar await para cachar las respuestas y me
+ * pareció una solución muy elegante. Así que decidí corregir mi 
+ * script.
  * 
  * Me agrada await ahora que comienzo a entenderlo un poco mejor.
  * Sin embargo me temo que realizaré más ejercicios para 
@@ -36,7 +43,7 @@ function fetchData (url_api) {
   
   return new Promise( (resolve, reject) => {
 
-    // Dejo de user el xhttp como variable gobal
+    // Dejo de usar el xhttp como variable gobal
     // así mejora la seguridad de la aplicación
     // y se vuelve una función fácil de reutilizar
     let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
