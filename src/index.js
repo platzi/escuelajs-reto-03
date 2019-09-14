@@ -1,4 +1,4 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
@@ -12,8 +12,8 @@ const fetchData = (url_api) => {
         }
         else {
           reject({
-            status: request.status,
-            statusText: request.statusText
+            status: xhttp.status,
+            statusText: xhttp.statusText
           });
         }
       }
