@@ -26,7 +26,7 @@ fetchData(API, function (error1, data1) {
       console.log('Tercero Llamado...')
       console.log('Personajes:' + ' ' + data1.info.count);
       console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
+      console.log('Dimensión :' + ' ' + data3.dimension);
     });
   });
 });
