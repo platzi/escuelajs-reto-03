@@ -20,16 +20,11 @@ const fetchData = (url_api) => {
   });
 }
 
-const obtenerPersonaje = (id) => {
-  return fetchData(`${API}${id}`);
-}
-
-
 const llamadoDatos = async () => {
   console.log('Primer Llamado...');
   let data1 = await fetchData(API);
   console.log('Segundo Llamado...');
-  let data2 = await obtenerPersonaje(data1.results[0].id);
+  let data2 = await fetchData(`${API}${data1.results[0].id}`);
   console.log('Tercero Llamado...')
   let data3 = await fetchData(data2.origin.url);
   console.log(`Personajes: ${data1.info.count}`);
