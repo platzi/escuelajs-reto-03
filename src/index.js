@@ -5,7 +5,10 @@ const xhttp = new XMLHttpRequest();
 const fetchData = (url_api)=> {
   return new Promise((resolve, reject) => {
     xhttp.onreadystatechange = function (e) {
-      if (xhttp.readyState === 4 && xhttp.status === 200) resolve(JSON.parse(xhttp.responseText));
+      if (xhttp.readyState === 4 && xhttp.status === 200)
+        resolve(JSON.parse(xhttp.responseText));
+      else
+        reject(new Error('Sorry something went wrong, please try again later.'))
     };
     xhttp.open('GET', url_api, true);
     xhttp.send();
