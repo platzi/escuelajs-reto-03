@@ -1,4 +1,4 @@
-var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+// var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 var API = 'https://rickandmortyapi.com/api/character/';
 
