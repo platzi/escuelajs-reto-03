@@ -33,7 +33,8 @@ const fetchData = async url => {
     console.log(`Primer Personaje: ${chapters.name}`)
     console.log(`Dimensión: ${characters.dimension}`)
   } catch (error) {
-    console.log(error.text)
+    console.log(error)
+    throw error
   }
 }
 
