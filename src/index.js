@@ -5,7 +5,7 @@ var xhttp = new XMLHttpRequest();
 
 console.log('......');
 
-function fetchData(url_api, callback) {
+const fetchData = (url_api, callback) => {
   xhttp.onreadystatechange = function (event) {
     if (xhttp.readyState === 4) {
       if (xhttp.status == 200)
@@ -15,13 +15,13 @@ function fetchData(url_api, callback) {
   };
   xhttp.open('GET', url_api, false);
   xhttp.send();
-};
+}
 
 fetchData(API, function (error1, data1) {
   if (error1) return console.error('Error' + ' ' + error1);
   console.log('Primer Llamado...')
   var dataP = JSON.parse(data1);
-  fetchData(API + dataP.results[0].id, function (error2, data2) {
+  fetchData(`${API}` + dataP.results[0].id, function (error2, data2) {
     if (error2) return console.error(error1);
     console.log('Segundo Llamado...')
     data2P = JSON.parse(data2)
