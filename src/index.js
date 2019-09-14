@@ -1,32 +1,42 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
+debugger
+const pomesafetchData = (url_api) => {
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
+  return new Promise((resolve, reject) => {
+    xhttp.onreadystatechange = function (event) {
+      debugger
+      console.log(xhttp.readyState)
+      if (xhttp.readyState === 4) {
+        console.log(xhttp.status)
+        if (xhttp.status == 200) {
+          console.log(xhttp);
+          resolve(JSON.parse(xhttp.responseText));
+        }
+        else
+          reject(url_api);
+      }
+      else
+        reject(url_api);
+    };
+    xhttp.open('GET', url_api, false);
+    xhttp.send();
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
   });
-});
+}
+
+const callData = async () => {
+
+  const dataResult1 = await pomesafetchData(API);
+  console.log(dataResult1);
+  const dataResultTwo = await pomesafetchData(`${API}${dataResult1.results}`);
+  console.log(dataResultTwo);
+  const dataResult3 = await pomesafetchData(dataResultTwo.origin.url);
+  console.log(dataResult3);
+}
+
+callData();
+
+
