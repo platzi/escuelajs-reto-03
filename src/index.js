@@ -19,18 +19,24 @@ const fetchData = (url_api, callback = () => {}) => {
   })
 }
 
-fetchData(API, async (error1, data1) => {
-  if (error1) return console.error(`Error ${error1}`)
+fetchData(API, (error1, data1) => {
+  if (error1) console.error(error1)
   console.log("Primer Llamado...")
-  await fetchData(`${API}${data1.results[0].id}`, async (error2, data2) => {
-    if (error2) return console.error(`Error ${error2}`)
-    console.log("Segundo Llamado...")
-    await fetchData(data2.origin.url, (error3, data3) => {
+  return data1
+})
+  .then(res =>
+    fetchData(`${API}${res.results[0].id}`, (error2, data2) => {
+      if (error2) console.error(error2)
+      console.log("Segundo Llamado...")
+      return { data1: res, data2 }
+    })
+  )
+  .then(res =>
+    fetchData(res.data2.origin.url, (error3, data3) => {
       if (error3) return console.error(`Error ${error3}`)
-      console.log("Tercero Llamado...")
-      console.log(`Personajes: ${data1.info.count}`)
-      console.log(`Primer Personaje: ${data2.name}`)
+      console.log("Tercer Llamado...")
+      console.log(`Personajes: ${res.data1.info.count}`)
+      console.log(`Primer Personaje: ${res.data2.name}`)
       console.log(`Dimensión: ${data3.dimension}`)
     })
-  })
-})
+  )
