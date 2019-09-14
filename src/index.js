@@ -4,14 +4,17 @@ const API = 'https://rickandmortyapi.com/api/character/'
 
 const fetchData = (url_api, obj = {}) => {
     return new Promise((resolve, reject) => {
-        const xhttp = new XMLHttpRequest();
+        const xhttp = new XMLHttpRequest()
         xhttp.onreadystatechange = event => {
             if (xhttp.readyState === 4) {
                 if (xhttp.status == 200) resolve({
                     data: JSON.parse(xhttp.responseText),
                     store: obj
                 })
-                else return reject(url_api)
+                else return reject({
+                  status: xhttp.status,
+                  url: url_api
+              })
             }
         }
 
@@ -31,8 +34,8 @@ fetchData(API)
     } )
     .then( ({ data, store }) => {
         console.log('Tercero Llamado...')
-        console.log('Personajes:' + ' ' + store.count);
-        console.log('Primer Personaje:' + ' ' + store.name);
-        console.log('Dimensión:' + ' ' + data.dimension);
+        console.log('Personajes:' + ' ' + store.count)
+        console.log('Primer Personaje:' + ' ' + store.name)
+        console.log('Dimensión:' + ' ' + data.dimension)
     } )
-    .catch( error => console.error(`Error ${error}`) )
+    .catch( error => console.error(`Error ${error.status} ${error.url}`) )
