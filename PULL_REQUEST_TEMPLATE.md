@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
 Nombre:
-Usuario Platzi:
+Alejandro Demetrio Cortez Alvarez
 
 ## Ciudad
-- [ ] Ciudad de México
+- [X] Ciudad de México
 - [ ] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [X] Primer problema
+  - [X] Segundo problema
+  - [X] Tercer problema
