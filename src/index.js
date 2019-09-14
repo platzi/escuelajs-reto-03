@@ -2,31 +2,37 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 const API = 'https://rickandmortyapi.com/api/character/'
 
-const fetchData = (url_api, callback) => {
-    const xhttp = new XMLHttpRequest()
-    xhttp.onreadystatechange = event => {
-        if (xhttp.readyState === 4) {
-            if (xhttp.status == 200) callback(null, JSON.parse(xhttp.responseText))
-            else return callback(url_api)
+const fetchData = (url_api, obj = {}) => {
+    return new Promise((resolve, reject) => {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = event => {
+            if (xhttp.readyState === 4) {
+                if (xhttp.status == 200) resolve({
+                    data: JSON.parse(xhttp.responseText),
+                    store: obj
+                })
+                else return reject(url_api)
+            }
         }
-    }
 
-    xhttp.open('GET', url_api, false)
-    xhttp.send()
+        xhttp.open('GET', url_api, false)
+        xhttp.send()
+    })
 }
 
-fetchData(API, (error1, data1) => {
-    if (error1) return console.error(`Error ${error1}`)
-    console.log('Primer Llamado...')
-    fetchData(`${API}${data1.results[0].id}`, (error2, data2) => {
-        if (error2) return console.error(error1)
+fetchData(API)
+    .then( ({ data }) => {
+        console.log('Primer Llamado...')
+        return fetchData(`${API}${data.results[0].id}`, { count: data.info.count })
+    } )
+    .then( ({ data, store }) => {
         console.log('Segundo Llamado...')
-        fetchData(data2.origin.url, (error3, data3) => {
-            if (error3) return console.error(error3)
-            console.log('Tercero Llamado...')
-            console.log('Personajes:' + ' ' + data1.info.count)
-            console.log('Primer Personaje:' + ' ' + data2.name)
-            console.log('Dimensión:' + ' ' + data3.dimension)
-        })
-    })
-})
+        return fetchData(data.origin.url, { ...store, name:data.name })
+    } )
+    .then( ({ data, store }) => {
+        console.log('Tercero Llamado...')
+        console.log('Personajes:' + ' ' + store.count);
+        console.log('Primer Personaje:' + ' ' + store.name);
+        console.log('Dimensión:' + ' ' + data.dimension);
+    } )
+    .catch( error => console.error(`Error ${error}`) )
