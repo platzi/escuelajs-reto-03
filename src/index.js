@@ -24,13 +24,13 @@ const loadCharacters = async () => {
     console.log('Primer llamado...');
     const data1 = await fetchData(API);
     console.log('Segundo llamado...');
-    const data2 = await fetchData(API + data1.results[0].id);
+    const data2 = await fetchData(`${API}${data1.results[0].id}`);
     console.log('Tercer llamado...');
     const data3 = await fetchData(data2.origin.url);
     console.log('Tercero Llamado...');
-    console.log('Personajes:' + ' ' + data1.info.count);
-    console.log('Primer Personaje:' + ' ' + data2.name);
-    console.log('Dimensión:' + ' ' + data3.dimension);
+    console.log(`Personajes: ${data1.info.count}`);
+    console.log(`Primer Personaje: ${data2.name}`);
+    console.log(`Dimensión: ${data3.dimension}`);
   } catch (error) {
     console.error(error);
   }
