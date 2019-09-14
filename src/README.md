@@ -1,9 +1,13 @@
 # El script obtiene información sobre el show de Rick & Morty
 
-*Output: *
-Primer Llamado...
-Segundo Llamado...
-Tercer Llamado...
-Personajes 493
-Primer Personaje: Rick Sanchez
-Dimensión: Dimension C-137
+**Correr el script:** npm run start
+
+**Output:**
+<code><br>
+    Primer Llamado... <br>
+    Segundo Llamado...<br>
+    Tercer Llamado...<br>
+    Personajes 493<br>
+    Primer Personaje: Rick Sanchez<br>
+    Dimensión: Dimension C-137<br>
+</code>
