@@ -20,7 +20,7 @@ const fetchData = ({ method = "GET", url_api, async = false }) => {
     xhttp.onreadystatechange = event => {
       xhttp.readyState === 4 && xhttp.status === 200
         ? resolve(JSON.parse(xhttp.responseText))
-        : reject();
+        : reject(new Error("Algo salió mal. Intente más tarde."));
     };
 
     //method, URL, is async?
