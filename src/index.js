@@ -4,7 +4,7 @@ var API = 'https://rickandmortyapi.com/api/character/';
 var xhttp = new XMLHttpRequest();
 
 function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
+  xhttp.onreadystatechange =  (event) =>{
     if (xhttp.readyState === 4) {
       if (xhttp.status == 200)
         callback(null, xhttp.responseText);
@@ -16,7 +16,7 @@ function fetchData(url_api, callback) {
   //console.log(xhttp.responseText)
 };
 
-fetchData(API, function (error1, data1) {
+fetchData(API, (error1, data1) =>{
   
    if (error1) return console.error('Error' + ' ' + error1);
    console.log('Primer Llamado...')
@@ -24,15 +24,15 @@ fetchData(API, function (error1, data1) {
    fetchData(API + data.results[0].id, function (error2, data2) {
      let parseData2=JSON.parse(data2);
     if (error2) return console.error(error2);
-    console.log(parseData2);
+  
     console.log('Segundo Llamado...')
-     fetchData(parseData2.origin.url, function (error3, data3) {
+     fetchData(parseData2.origin.url, (error3, data3) =>{
        let parseData3=JSON.parse(data3)
        if (error3) return console.error(error3);
       console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data.info.count);
-      console.log('Primer Personaje:' + ' ' + parseData2.name);
-      console.log('Dimensión:' + ' ' + parseData3.dimension);
+      console.log(`Personajes: ${data.info.count}`);
+      console.log(`Primer Personaje:${parseData2.name}`);
+      console.log(`Dimensión:  ${parseData3.dimension}`);
      });
    });
 });
