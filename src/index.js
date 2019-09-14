@@ -3,47 +3,77 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
 
-//function fetchData(url_api, callback) {
-  const fetchData = (url_api, callback) => {
+const fetchDataPromesa = url => {
+  // const fetchData = (url_api, callback) => {
     return new Promise ((resolve,reject)=>{
-      xhttp.onreadystatechange = function (event) {
+      xhttp.onreadystatechange = function () {
         if (xhttp.readyState === 4) {
           if (xhttp.status == 200){
-            callback(null, xhttp.responseText);
-            //console.log(xhttp.responseText);
+            var respuesta = JSON.parse(xhttp.responseText);
+            /*"respuesta" es la variable que recibe la solicitud
+               en String y se le parsea la respuesta a JSON*/
+            return resolve(respuesta);
           }
           else{
-            return callback(url_api);
+            return reject( new Error('404 Error'));
           } 
+          //console.log(respuesta);
         }
       };
-      xhttp.open('GET', url_api, false);
+      xhttp.responseType = 'json'
+      xhttp.open('GET', url, false);
       xhttp.send();
-
     })
 
   }
 
 
+
 //fetchData (API, (error1, data1) => {
-  const fetchData = async (API, (error1, data1) => {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  let datos1 = JSON.parse(data1); 
-  //console.log(data1)
+const fetchData = async url => {
+  try {
+    console.log('Primer Llamado...')
+    //console.log(xhttp);
+    const dato1 = await fetchDataPromesa(url); 
+    console.log(`se tienen ${dato1.info.count} personajes`)
+    
+    //fetchData(API + datos1.results[0].id, function (error2, data2) {
+      
+    //console.log('Segundo Llamado...')
+    for(let i=0; i<=dato1.info.count; i++){
+      const dato2 = await fetchDataPromesa(`${API}${dato1.results[i].id}`);
+      console.log(`nombre: ${dato2.name}`);
   
-  fetchData(API + datos1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    datos2 = JSON.parse(data2);
-    //console.log(datos2)
-    fetchData(datos2.origin.url, function (error3, data3) {
-      datos3 = JSON.parse(data3);
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log(`Personajes:     ${datos1.info.count}`);
-      console.log(`Primer Personaje:  datos2.name`);
-      console.log(`Dimensión:   datos3.dimension`);
-    });
-  });
-});
+  
+        
+        //console.log('Tercer Llamado...')
+        const dato3 = await fetchDataPromesa(dato2.origin.url)
+        console.log (`De la dimensión: ${dato3.dimension}`);
+        console.log('');
+        console.log('');
+        
+
+    }
+
+      
+      //const datos2 = await fetchDataPromesa(`${API}${datos1.results[0].id}`);
+      //console.log(datos2.name);
+      //data2 = JSON.parse(data2);
+
+     //const datos2 = await fetchDataPromesa(`${url}${datos1.results[0].name}`);
+
+     /* //console.log(datos2)
+      //fetchData(datos2.origin.url, function (error3, data3) {
+        datos3 = JSON.parse(data3);
+        const datos3 = await fetchDataPromesa(data3)
+        console.log(`Personajes:     ${datos1.info.count}`);
+        console.log(`Primer Personaje:  ${datos2.name}`);
+        console.log(`Dimensión:   ${datos3.dimension}`);
+      */
+      } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+fetchData(API); 
+  
