@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+    <title>Reto 3</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: cadetblue;
+        font-family: "Lato", sans-serif;
+      }
+
+      .main {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        color: #f4f4f4;
+        align-items: center;
+        justify-items: center;
+        flex-direction: column;
+      }
+
+      h1 {
+        margin: 50px auto;
+      }
+
+      .personaje {
+        width: 250px;
+        background-color: #333333;
+        box-shadow: 0px 20px 33px 0px rgba(0, 0, 0, 0.3);
+      }
+
+      .personaje__img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      h2,
+      h4 {
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="main">
+      <h1>Personajes Totales: <span id="personajes"></span></h1>
+      <div class="personaje">
+        <img
+          src=""
+          alt="Imagen del personaje"
+          class="personaje__img"
+          id="perImg"
+        />
+        <h2 id="perName"></h2>
+        <h4 id="perDimension"></h4>
+      </div>
+    </section>
+    <script src="src/index.js"></script>
+  </body>
+</html>
