@@ -5,24 +5,28 @@ const xhttp = new XMLHttpRequest();
 
 //function fetchData(url_api, callback) {
   const fetchData = (url_api, callback) => {
-    xhttp.onreadystatechange = function (event) {
-      if (xhttp.readyState === 4) {
-        if (xhttp.status == 200){
-          callback(null, xhttp.responseText);
-          //console.log(xhttp.responseText);
+    return new Promise ((resolve,reject)=>{
+      xhttp.onreadystatechange = function (event) {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status == 200){
+            callback(null, xhttp.responseText);
+            //console.log(xhttp.responseText);
+          }
+          else{
+            return callback(url_api);
+          } 
         }
-        else{
-          return callback(url_api);
-        } 
-      }
-    };
-    xhttp.open('GET', url_api, false);
-    xhttp.send();
+      };
+      xhttp.open('GET', url_api, false);
+      xhttp.send();
+
+    })
 
   }
 
 
-fetchData (API, function (error1, data1) {
+//fetchData (API, (error1, data1) => {
+  const fetchData = async (API, (error1, data1) => {
   if (error1) return console.error('Error' + ' ' + error1);
   console.log('Primer Llamado...')
   let datos1 = JSON.parse(data1); 
@@ -37,9 +41,9 @@ fetchData (API, function (error1, data1) {
       datos3 = JSON.parse(data3);
       if (error3) return console.error(error3);
       console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + datos1.info.count);
-      console.log('Primer Personaje:' + ' ' + datos2.name);
-      console.log('Dimensión:' + ' ' + datos3.dimension);
+      console.log(`Personajes:     ${datos1.info.count}`);
+      console.log(`Primer Personaje:  datos2.name`);
+      console.log(`Dimensión:   datos3.dimension`);
     });
   });
 });
