@@ -21,15 +21,19 @@ const fetchData = (url_api) => {
 }
 
 const llamadoDatos = async () => {
-  console.log('Primer Llamado...');
-  let data1 = await fetchData(API);
-  console.log('Segundo Llamado...');
-  let data2 = await fetchData(`${API}${data1.results[0].id}`);
-  console.log('Tercero Llamado...')
-  let data3 = await fetchData(data2.origin.url);
-  console.log(`Personajes: ${data1.info.count}`);
-  console.log(`Primer Personaje: ${data2.name}`);
-  console.log(`Dimensión: ${data3.dimension}`);
+  try {
+    console.log('Primer Llamado...');
+    let data1 = await fetchData(API);
+    console.log('Segundo Llamado...');
+    let data2 = await fetchData(`${API}${data1.results[0].id}`);
+    console.log('Tercero Llamado...')
+    let data3 = await fetchData(data2.origin.url);
+    console.log(`Personajes: ${data1.info.count}`);
+    console.log(`Primer Personaje: ${data2.name}`);
+    console.log(`Dimensión: ${data3.dimension}`);
+  } catch (error) {
+    console.error(`Error al consultar los datos`, error);
+  }
 }
 
 llamadoDatos();
