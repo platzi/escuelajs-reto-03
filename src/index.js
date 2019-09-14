@@ -18,19 +18,37 @@ var fetchData = (url_api) => {
   })
 }
 
-fetchData(API)
-  .then(data1 => {
+// fetchData(API)
+//   .then(data1 => {
+//     console.log('Primer Llamado...')
+//     return fetchData(API + data1.results[0].id)
+//   })
+//   .then(data2 =>{
+//     console.log('Segundo Llamado...')
+//     return fetchData(data2.origin.url)
+//   })
+//   .then(data3 =>{
+//     console.log('Tercero Llamado...')
+//     console.log(`Personajes: ${data1.info.count}`)
+//     console.log(`Primer Personaje: ${data2.name}`)
+//     console.log(`Dimensión: ${data3.dimension}`)
+//   })
+//   .catch(()=>console.log("Error"))
+
+async function start() {
+  try {
+    let data1 = await fetchData(API)
+    let data2 = await fetchData(API + data1.results[0].id)
+    let data3 = await fetchData(data2.origin.url)
     console.log('Primer Llamado...')
-    return fetchData(API + data1.results[0].id)
-  })
-  .then(data2 =>{
     console.log('Segundo Llamado...')
-    return fetchData(data2.origin.url)
-  })
-  .then(data3 =>{
     console.log('Tercero Llamado...')
     console.log(`Personajes: ${data1.info.count}`)
     console.log(`Primer Personaje: ${data2.name}`)
     console.log(`Dimensión: ${data3.dimension}`)
-  })
-  .catch(()=>console.log("Error"))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+start()
