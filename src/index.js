@@ -1,14 +1,18 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
 
 function fetchData(url_api, callback) {
   xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
+    if (xhttp.readyState === 4) {
+      if (xhttp.status == 200){
         callback(null, xhttp.responseText);
-      else return callback(url_api);
+        console.log(xhttp.responseText);
+      }
+      else{
+        return callback(url_api);
+      } 
     }
   };
   xhttp.open('GET', url_api, false);
@@ -18,6 +22,7 @@ function fetchData(url_api, callback) {
 fetchData(API, function (error1, data1) {
   if (error1) return console.error('Error' + ' ' + error1);
   console.log('Primer Llamado...')
+  console.log(data1)
   fetchData(API + data1.results[0].id, function (error2, data2) {
     if (error2) return console.error(error1);
     console.log('Segundo Llamado...')
