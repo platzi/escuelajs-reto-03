@@ -1,32 +1,40 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+//Usé el browser para correr y corregir este script. Razón por la cual el require no está presente.
 
 var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
+const fetchData = url_api => {
+	return new Promise((resolve, reject) => {
+		var xhttp = new XMLHttpRequest();
+		xhttp.responseType = 'json';
+
+		xhttp.onreadystatechange = function(event) {
+			if (xhttp.readyState === 4) {
+				if (xhttp.status == 200) resolve(xhttp.response);
+				else return callback(url_api);
+			}
+		};
+		xhttp.open('GET', url_api, true);
+		xhttp.send();
+	});
 };
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+async function getRickandMortyData() {
+	try {
+		console.log(`Primer Llamado...`);
+		let characterData = await fetchData(API);
+
+		console.log(`Segundo Llamado...`);
+		let getCharacter = await fetchData(API + characterData.results[0].id);
+
+		console.log(`Tercer Llamado...`);
+		let getDimension = await fetchData(getCharacter.origin.url);
+
+		console.log(`El número de personajes en R&M son: ${characterData.info.count}`);
+		console.log(`El personaje #${getCharacter.id} es: ${getCharacter.name}`);
+		console.log(`La dimensión en la que ${getCharacter.name} vive es: ${getDimension.dimension}`);
+	} catch (error) {
+		console.log(error.message);
+	}
+}
+
+getRickandMortyData();
