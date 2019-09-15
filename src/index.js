@@ -37,6 +37,10 @@ function renderInput(message, element) {
 
 
 function renderImage (src, element) {
+  // eslint-disable-next-line no-console
+  console.log(`Drawing element: ${element} with ${src}`);
+  const $elementObj = document.querySelector(element);
+  $elementObj.setAttribute('src', src);
   //
 }
 
@@ -71,6 +75,7 @@ function data2(responseText) {
   const response = JSON.parse(responseText);
   // debugger;
   // alert(response.image);
+  renderImage(response.image, '#characterImage');
   renderInput(`${response.name}`, '#characterName');
   if (response.origin.url) {
     const urlApi = response.origin.url;
