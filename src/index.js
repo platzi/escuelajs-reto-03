@@ -1,32 +1,96 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const API = 'https://rickandmortyapi.com/api/character/'; // success
+let REGISTERS_COUNT;
+// API = 'https://rickandmortyapi.com/api/characters/';// error
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+/*
+ * nos alertará en consola sobre cualquier error al obtener información del api
+ * @error = el objeto JSON del error, éste deberá de tener un atributo llamado @responseText
+ */
+function consoleError(error) {
+  // eslint-disable-next-line no-console
+  console.log(error.responseText);
+}
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
+/*
+ * Pinta en un input el resultado de la operación
+ * @message = el mensaje que va a ser dibujado
+ * @element = El query que haga referencia al input que se vaya a dibujar
+ * En caso de no ser especificado el element se alertará el resultado, ésto fue 
+ * muy útil antes de definir la estructura HTML para testear desde js
+ */
+function renderInput(message, element) {
+  if (element) {
+    // Dibujar en el DOM
+    // const $elementObj = document.querySelector(element);
+    // eslint-disable-next-line no-console
+    console.log(`Drawing element: ${element} with ${message}`);
+    const $elementObj = document.querySelector(element);
+    $elementObj.setAttribute('value', message);
+    // eslint-disable-next-line no-console
+  } else {
+    // alertar el resultado para mostrarlo
+    // eslint-disable-next-line no-alert
+    alert(message);
+    // eslint-disable-next-line no-console
+    console.log(message);
+  }
+}
+
+
+function renderImage(src, element) {
+  // eslint-disable-next-line no-console
+  console.log(`Drawing element: ${element} with ${src}`);
+  const $elementObj = document.querySelector(element);
+  $elementObj.setAttribute('src', src);
+  //
+}
+
+function getCharacter(URL_API) {
+  fetch(URL_API, {}).then((response) => {
+    if (response.status === 200) {
+      return response.json();
     }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
-
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
+    // debugger;
+    return 0;
+  }).then((data) => {
+    if (data) {
+      // resultado 2
+      const NAME = data.name;
+      const IMAGE_URL = data.image;
+      renderInput(`${NAME}`, '#characterName');
+      renderImage(IMAGE_URL, '#characterImage');
+      const URL_API = data.origin.url;
+      if (URL_API) {
+        fetch(URL_API, {}).then((response) => response.json()).then((data) => {
+          // resultado 3
+          const DIMENSION = data.dimension;
+          renderInput(DIMENSION, '#characterDimension');
+        });
+      }
+    } else {
+      const DIMENSION = 'dimension desconocida';
+      renderInput(DIMENSION, '#characterDimension');
+      // eslint-disable-next-line no-alert
+      alert('No encontramos el personaje');
+    }
   });
+}
+
+function getCharacters() {
+  const id = document.querySelector('#idCharacter').value;
+  if (id) {
+    getCharacter(API + id);
+  } else {
+    getCharacter(API + 1);
+  }
+}
+
+fetch(API, {}).then((response) => response.json()).then((data) => {
+  // resultado 1
+  REGISTERS_COUNT = data.info.count;
+  const $idCharacter = document.querySelector('#idCharacter');
+  $idCharacter.setAttribute('max', REGISTERS_COUNT);
+  renderInput(REGISTERS_COUNT, '#totalRecords');
+  const URL_API = API + data.results[0].id;
+  getCharacter(URL_API);
 });
