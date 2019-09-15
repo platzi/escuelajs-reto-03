@@ -1,32 +1,117 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+let API = 'https://rickandmortyapi.com/api/character/'; // success
+// API = 'https://rickandmortyapi.com/api/characters/';// error
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+/*
+ * nos alertará en consola sobre cualquier error al obtener información del api
+ * @error = el objeto JSON del error, éste deberá de tener un atributo llamado @responseText
+ */
+function consoleError(error) {
+  // eslint-disable-next-line no-console
+  console.log(error.responseText);
+}
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
+/*
+ * Pinta en un input el resultado de la operación
+ * @message = el mensaje que va a ser dibujado
+ * @element = El query que haga referencia al input que se vaya a dibujar
+ * En caso de no ser especificado el element se alertará el resultado, ésto fue 
+ * muy útil antes de definir la estructura HTML para testear desde js
+ */
+function renderInput(message, element) {
+  if (element) {
+    // Dibujar en el DOM
+    // const $elementObj = document.querySelector(element);
+    // eslint-disable-next-line no-console
+    console.log(`Drawing element: ${element} with ${message}`);
+    const $elementObj = document.querySelector(element);
+    $elementObj.setAttribute('value', message);
+    // eslint-disable-next-line no-console
+  } else {
+    // alertar el resultado para mostrarlo
+    // eslint-disable-next-line no-alert
+    alert(message);
+    // eslint-disable-next-line no-console
+    console.log(message);
+  }
+}
+
+
+function renderImage (src, element) {
+  //
+}
+
+function fetchData({ urlApi, callbacks = false, success = () => {}, error = () => {} }) {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = (event) => {
+    if (request.readyState === 4) {
+      // console.log(event);
+      if (request.status === 200) { // success
+        // console.log(`HTTP Response: ${request.status}`);
+        // console.log(request.responseText);
+        success(request.responseText);
+      } else { // error
+        // renderInput("entramos en el error");
+        // renderInput(event.target.responseText);
+        error(request);
+      }
     }
   };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
+  request.open('GET', urlApi, false);
+  request.send(null);
+}
+
+function data3(responseText) {
+  // console.log('responseJSON: ');
+  const response = JSON.parse(responseText);
+  // console.log(response);
+  renderInput(response.dimension, '#characterDimension');
+}
+
+function data2(responseText) {
+  const response = JSON.parse(responseText);
+  // debugger;
+  // alert(response.image);
+  renderInput(`${response.name}`, '#characterName');
+  if (response.origin.url) {
+    const urlApi = response.origin.url;
+    fetchData({
+      urlApi,
+      success: data3,
+      error: consoleError,
+    });
+  }else{
+    renderInput('no especificada', '#characterDimension');
+  }
+}
+
+const data1 = (responseText) => {
+  // const ELEMENTS = (JSON.parse(response)); // result 1
+  const characters = JSON.parse(responseText);
+  const character = characters.results[0];
+  const urlApi = API + character.id;
+  renderInput(characters.info.count, '#totalRecords');
+  // console.log(character.id === 1);
+  // debugger;
+  fetchData({
+    urlApi,
+    success: data2,
+    error: consoleError,
+  });
 };
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
+fetchData({
+  urlApi: API,
+  success: data1,
+  error: consoleError,
 });
+
+function getCharacters() {
+  const id = document.querySelector('#idCharacter').value;
+  fetchData({
+    urlApi: API + id,
+    success: data2,
+    error: consoleError,
+  });
+}
+
+// Botón que saque el personaje desde el id
