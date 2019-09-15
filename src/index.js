@@ -1,4 +1,4 @@
-//danielevokando@gmail.com
+//danielevokando   (usuario Platzi CO)
 //Manuel Melgarejo Sáenz
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
