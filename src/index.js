@@ -25,12 +25,17 @@ const promiseA = fetchData(API);
 const promiseB = promiseA.then(data1 => fetchData(`${API}${data1.results[0].id}`));
 const promiseC = promiseB.then(data2 => fetchData(data2.origin.url));
 
-Promise.all([promiseA,promiseB,promiseC])
-.then(([dataA, dataB, dataC]) => { 
-  console.log(`Personajes: ${dataA.info.count}`);
-  console.log(`Primer Personaje: ${dataB.name}`);
-  console.log(`Dimensión: ${dataC.dimension}`);
-})
-.catch(error => { 
-  console.log(error)
-});
+const fetchAllData = async () =>{
+  try {
+    const dataA = await promiseA;
+    const dataB = await promiseB;
+    const dataC = await promiseC;
+    console.log(`Personajes: ${dataA.info.count}`);
+    console.log(`Primer Personaje: ${dataB.name}`);
+    console.log(`Dimensión: ${dataC.dimension}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+fetchAllData();
