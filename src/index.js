@@ -1,32 +1,79 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
+const fetchDataPromesa = url => {
+  // const fetchData = (url_api, callback) => {
+    return new Promise ((resolve,reject)=>{
+      xhttp.onreadystatechange = function () {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status == 200){
+            var respuesta = JSON.parse(xhttp.responseText);
+            /*"respuesta" es la variable que recibe la solicitud
+               en String y se le parsea la respuesta a JSON*/
+            return resolve(respuesta);
+          }
+          else{
+            return reject( new Error('404 Error'));
+          } 
+          //console.log(respuesta);
+        }
+      };
+      xhttp.responseType = 'json'
+      xhttp.open('GET', url, false);
+      xhttp.send();
+    })
+
+  }
+
+
+
+//fetchData (API, (error1, data1) => {
+const fetchData = async url => {
+  try {
+    console.log('Primer Llamado...')
+    //console.log(xhttp);
+    const dato1 = await fetchDataPromesa(url); 
+    console.log(`se tienen ${dato1.info.count} personajes`)
+    
+    //fetchData(API + datos1.results[0].id, function (error2, data2) {
+      
+    //console.log('Segundo Llamado...')
+    for(let i=0; i<=dato1.info.count; i++){
+      const dato2 = await fetchDataPromesa(`${API}${dato1.results[i].id}`);
+      console.log(`nombre: ${dato2.name}`);
+  
+  
+        
+        //console.log('Tercer Llamado...')
+        const dato3 = await fetchDataPromesa(dato2.origin.url)
+        console.log (`De la dimensión: ${dato3.dimension}`);
+        console.log('');
+        console.log('');
+        
+
     }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+      
+      //const datos2 = await fetchDataPromesa(`${API}${datos1.results[0].id}`);
+      //console.log(datos2.name);
+      //data2 = JSON.parse(data2);
+
+     //const datos2 = await fetchDataPromesa(`${url}${datos1.results[0].name}`);
+
+     /* //console.log(datos2)
+      //fetchData(datos2.origin.url, function (error3, data3) {
+        datos3 = JSON.parse(data3);
+        const datos3 = await fetchDataPromesa(data3)
+        console.log(`Personajes:     ${datos1.info.count}`);
+        console.log(`Primer Personaje:  ${datos2.name}`);
+        console.log(`Dimensión:   ${datos3.dimension}`);
+      */
+      } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+fetchData(API); 
+  
