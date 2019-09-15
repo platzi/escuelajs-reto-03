@@ -1,7 +1,7 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Mauricio Iván Martínez Carmona
+Usuario Platzi: @MauricioCarmona
 
 ## Ciudad
 - [x] Ciudad de México
