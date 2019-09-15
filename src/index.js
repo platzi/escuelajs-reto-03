@@ -1,3 +1,6 @@
+//danielevokando@gmail.com
+//Manuel Melgarejo Sáenz
+
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 const API = 'https://rickandmortyapi.com/api/character/'
 
