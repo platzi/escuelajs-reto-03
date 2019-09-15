@@ -1,16 +1,16 @@
-const  XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 const API = 'https://rickandmortyapi.com/api/character/'
 
 const xhttp = new XMLHttpRequest()
 
-function fetchData(url_api) {
+const fetchData = (url_api) => {
   return new Promise((resolve, reject) => {
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
       const DONE = 4
       const OK = 200
       if (this.readyState === DONE) {
-        if (this.status == OK) {
+        if (this.status === OK) {
           resolve(JSON.parse(this.responseText))
         } else {
           reject(new Error(`Error al hacer el request ${this.status}`))
@@ -36,15 +36,15 @@ function fetchData(url_api) {
 //   xhttp.send();
 // };
 fetchData(API)
-.then((response)=>{
-  console.log(`Personajes: ${response.info.count}`)
-  return  fetchData(API  + response.results[0].id)
-})
-.then((response)=>{
-  console.log(`Primer Personaje: ${response.name}`)
-  return fetchData(response.origin.url)
-})
-.then(response => console.log(`Dimensión: ${response.dimension}`))
+  .then((response) => {
+    console.log(`Personajes: ${response.info.count}`)
+    return fetchData(API + response.results[0].id)
+  })
+  .then((response) => {
+    console.log(`Primer Personaje: ${response.name}`)
+    return fetchData(response.origin.url)
+  })
+  .then(response => console.log(`Dimensión: ${response.dimension}`))
 
 
 
