@@ -23,24 +23,24 @@ const randomCharacter = character => { return Math.round(character * Math.random
 /*DEFINIMOS NUEVA FUNCION SEARCH PARA EJECUTAR ASINCRONAMENTE LAS CONSULTAS*/
 const searchCharacters = async () => {
   try {
-    const characters = await fetchData(API);
+    const characters = await fetchData(API)
     const TOTAL_CHARACTER=characters.info.count - 1
     const SELECT_CHARACTER = randomCharacter(TOTAL_CHARACTER)
-    console.log(`Searching character...${SELECT_CHARACTER}`);
-    const new_character = await fetchData(API + SELECT_CHARACTER);
-    console.log(`Searching more...`);
-    const data_character = await fetchData(new_character.url);
-    console.log(`Getting data...`);
-    //console.log(`Total Character:${personajes.info.count}`);
-    console.log(`*************CHARACTER**************`);
-    console.log(`Name #${SELECT_CHARACTER}: ${data_character.name}`);
-    console.log(`Status: ${data_character.status}`);
-    console.log(`Species: ${data_character.species}`);
-    console.log(`Gender: ${data_character.gender}`);
-    console.log('Location:' + ' ' + data_character.location.name);
-    console.log(`************************************`);
+    console.log(`Searching character...${SELECT_CHARACTER}`)
+    const new_character = await fetchData(API + SELECT_CHARACTER)
+    console.log(`Searching more...`)
+    const data_character = await fetchData(new_character.url)
+    console.log(`Getting data...`)
+    //console.log(`Total Character:${characters.info.count}`);
+    console.log(`*************CHARACTER**************`)
+    console.log(`Name #${SELECT_CHARACTER}: ${data_character.name}`)
+    console.log(`Status: ${data_character.status}`)
+    console.log(`Species: ${data_character.species}`)
+    console.log(`Gender: ${data_character.gender}`)
+    console.log('Location:' + ' ' + data_character.location.name)
+    console.log(`************************************`)
   } catch (error) {
-      console.error(error);
+      console.error(error)
   }
-};
-searchCharacters(); 
+}
+searchCharacters()
