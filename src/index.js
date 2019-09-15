@@ -1,25 +1,27 @@
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const { XMLHttpRequest } = require("xmlhttprequest");
 
 const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
-debugger
+const statusRequest = {
+  success: 200,
+  notFound: 404,
+  internalServerError: 500,
+  done: 4
+};
+
+
 const pomesafetchData = (url_api) => {
 
   return new Promise((resolve, reject) => {
     xhttp.onreadystatechange = function (event) {
-      debugger
-      console.log(xhttp.readyState)
-      if (xhttp.readyState === 4) {
-        console.log(xhttp.status)
-        if (xhttp.status == 200) {
-          console.log(xhttp);
+
+      if (xhttp.readyState === statusRequest.done) {
+        if (xhttp.status === statusRequest.success)
           resolve(JSON.parse(xhttp.responseText));
-        }
         else
-          reject(url_api);
+          reject(`Request error ${xhttp.status}`);
       }
-      else
-        reject(url_api);
+
     };
     xhttp.open('GET', url_api, false);
     xhttp.send();
@@ -28,15 +30,17 @@ const pomesafetchData = (url_api) => {
 }
 
 const callData = async () => {
-
-  const dataResult1 = await pomesafetchData(API);
-  console.log(dataResult1);
-  const dataResultTwo = await pomesafetchData(`${API}${dataResult1.results}`);
-  console.log(dataResultTwo);
-  const dataResult3 = await pomesafetchData(dataResultTwo.origin.url);
-  console.log(dataResult3);
+  try {
+    const dataResult1 = await pomesafetchData(API);
+    console.log(dataResult1);
+    const dataResult2 = await pomesafetchData(`${API}${dataResult1.results[0].id}`);
+    console.log(dataResult2);
+    const dataResult3 = await pomesafetchData(dataResult2.origin.url);
+    console.log(dataResult3);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 callData();
-
 
