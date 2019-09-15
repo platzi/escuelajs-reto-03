@@ -1,0 +1,25 @@
+
+.container{
+  display: grid;
+  grid-template-rows: 300px 300px;
+  grid-gap: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.block{
+  border: 2px dotted red;
+  padding: 10px;
+}
+
+h1{
+  color: sienna;
+}
+
+ul{
+  margin: 20px 10px;
+  padding: 0;
+}
+
+ul li{
+  list-style: none;  
+}
