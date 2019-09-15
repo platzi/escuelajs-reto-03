@@ -5,24 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div class="wrapper" >
-        <label for="">Total de registros</label>
-        <input type="text" name="" id="totalRecords" disabled="true">
-        <br>
-        <label for="">Nombre</label>
-        <input type="text" name="" id="characterName" disabled="true">
-        <br>
-        <label for="">Dimension</label>
-        <input type="text" name="" id="characterDimension" disabled="true">
-        <br>
-        <img src="" alt="" id="characterImage">
-        <br>
-        <input type="text" name="" id="idCharacter" placeholder="character id">
-        <br>
-        <button onclick="getCharacters()">Obtener personaje</button>
-    </div>
+    
+
+
+    <body class="rick-morty-page">
+        <header class="header">
+            <img class="header__img" src="img/logo-adn.png" alt="" />
+            <div class="header__menu">
+                <div class="header__menu--profile">
+                    <img src="./img/icons8-nombre-64.png" alt="Usuario" />
+                    Perfil
+                </div>
+                <ul>
+                    <li><a href="/">Cuenta</a></li>
+                    <li><a href="/">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </header>
+
+
+        <div class="rickAndMorty">
+            <label for="">Total de registros</label>
+            <input type="text" name="" id="totalRecords" disabled="true">
+            <br>
+            <label for="">Nombre</label>
+            <input type="text" name="" id="characterName" disabled="true">
+            <br>
+            <label for="">Dimension</label>
+            <input type="text" name="" id="characterDimension" disabled="true">
+            <br>
+            <img src="" alt="" id="characterImage">
+            <br>
+            <input type="text" name="" id="idCharacter" placeholder="character id">
+            <br>
+            <button onclick="getCharacters()">Obtener personaje</button>
+        </div>
+
+
+        <footer class="footer">
+            <a href="/">Términos de uso</a>
+            <a href="/">Declaración de privacidad</a>
+            <a href="/">Centro de ayuda</a>
+        </footer>
+    </body>
+
+
+
     <script src="index.js"></script>
 </body>
 </html>
