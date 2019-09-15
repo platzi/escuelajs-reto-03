@@ -1,7 +1,7 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi: afvalenciab
+Nombre: **Andres Felipe Valencia Benitez**
+Usuario Platzi: **afvalenciab**
 
 ## Ciudad
 - [x] Ciudad de México
