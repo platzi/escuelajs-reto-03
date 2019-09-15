@@ -1,13 +1,15 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var API = 'https://rickandmortyapi.com/api/character/';
 var resultados = {};
+const HTTP_OK = 200;
+const HTTP_DONE = 4;
 
 const fetchData = (url_api) => {
     return new Promise((resolve, reject) => {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = (event) => {
-        if (xhttp.readyState === 4) {
-          if (xhttp.status == 200){
+        if (xhttp.readyState === HTTP_DONE) {
+          if (xhttp.status == HTTP_OK){
             resolve (JSON.parse(xhttp.responseText));
           } else {
             reject (url_api);
