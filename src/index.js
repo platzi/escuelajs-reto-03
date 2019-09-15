@@ -1,9 +1,8 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 var API = 'https://rickandmortyapi.com/api/character/'
 var xhttp = new XMLHttpRequest()
-let personajes,primer_personaje,dimension_personaje
-const existError = error => console.log(`Error: ${error}`)
 
+const existError = error => console.log(`Error: ${error}`)
 /*FUNCION FECTHDATA CREA Y RETORNA LOS RESULTADOS DE LA PROMESA*/
 const fetchData = url_api => {
   return new Promise((resolve, reject) => {
@@ -18,24 +17,30 @@ const fetchData = url_api => {
   xhttp.send()
 })
 }
+/*GENERA NUMERO ALEATORIO PARA SELECCIONAR EL PERSONAJE A BUSCAR Y MOSTRAR*/ 
+const randomCharacter = character => { return Math.round(character * Math.random()) }
 
-/*OBTENEMOS RESULTADOS DE PROMESA*/
-fetchData(API)
-  .then(data1 => {
-    console.log(`Primer Llamado...`)
-    personajes=data1
-    return fetchData(API + personajes.results[0].id)
-  })
-  .then(data2 => {
-    console.log(`Segundo Llamado...`)
-    primer_personaje=data2
-    return fetchData(primer_personaje.origin.url)
-  })
-  .then(data3 => {
-    dimension_personaje=data3
-    console.log(`Tercer Llamado...`)
-    console.log(`Total Personajes: ${personajes.info.count}`)
-    console.log(`Nombre Primer Personaje: ${primer_personaje.name}`)
-    console.log(`Dimensión: ${dimension_personaje.dimension}`)
-  })
-  .catch(existError)
+/*DEFINIMOS NUEVA FUNCION SEARCH PARA EJECUTAR ASINCRONAMENTE LAS CONSULTAS*/
+const searchCharacters = async () => {
+  try {
+    const characters = await fetchData(API);
+    const TOTAL_CHARACTER=characters.info.count - 1
+    const SELECT_CHARACTER = randomCharacter(TOTAL_CHARACTER)
+    console.log(`Searching character...${SELECT_CHARACTER}`);
+    const new_character = await fetchData(API + SELECT_CHARACTER);
+    console.log(`Searching more...`);
+    const data_character = await fetchData(new_character.url);
+    console.log(`Getting data...`);
+    //console.log(`Total Character:${personajes.info.count}`);
+    console.log(`*************CHARACTER**************`);
+    console.log(`Name #${SELECT_CHARACTER}: ${data_character.name}`);
+    console.log(`Status: ${data_character.status}`);
+    console.log(`Species: ${data_character.species}`);
+    console.log(`Gender: ${data_character.gender}`);
+    console.log('Location:' + ' ' + data_character.location.name);
+    console.log(`************************************`);
+  } catch (error) {
+      console.error(error);
+  }
+};
+searchCharacters(); 
