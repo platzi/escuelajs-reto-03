@@ -37,7 +37,7 @@ const searchCharacters = async () => {
     console.log(`Status: ${data_character.status}`)
     console.log(`Species: ${data_character.species}`)
     console.log(`Gender: ${data_character.gender}`)
-    console.log('Location:' + ' ' + data_character.location.name)
+    console.log(`Location: ${data_character.location.name}`)
     console.log(`************************************`)
   } catch (error) {
       console.error(error)
