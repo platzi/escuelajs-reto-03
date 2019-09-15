@@ -22,18 +22,18 @@ const fetchData = url_api => {
 /*OBTENEMOS RESULTADOS DE PROMESA*/
 fetchData(API)
   .then(data1 => {
-    console.log('Primer Llamado...')
+    console.log(`Primer Llamado...`)
     personajes=data1
     return fetchData(API + personajes.results[0].id)
   })
   .then(data2 => {
-    console.log('Segundo Llamado...')
+    console.log(`Segundo Llamado...`)
     primer_personaje=data2
     return fetchData(primer_personaje.origin.url)
   })
   .then(data3 => {
     dimension_personaje=data3
-    console.log('Tercer Llamado...')
+    console.log(`Tercer Llamado...`)
     console.log(`Total Personajes: ${personajes.info.count}`)
     console.log(`Nombre Primer Personaje: ${primer_personaje.name}`)
     console.log(`Dimensión: ${dimension_personaje.dimension}`)
