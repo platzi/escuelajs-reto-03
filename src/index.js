@@ -4,6 +4,9 @@ const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
 
 function fetchData(url_api, callback) {
+  return new Promise ((resolve, reject) => {
+    
+  })
   xhttp.onreadystatechange = (event) => {
     if (xhttp.readyState === 4 && xhttp.status == 200) {
         callback(null, JSON.parse(xhttp.responseText));
