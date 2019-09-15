@@ -1,32 +1,47 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+var API = 'https://rickandmortyapi.com/api/character/'
+var xhttp = new XMLHttpRequest()
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
-
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
+const existError = error => console.log(`Error: ${error}`)
+/*FUNCION FECTHDATA CREA Y RETORNA LOS RESULTADOS DE LA PROMESA*/
+const fetchData = url_api => {
+  return new Promise((resolve, reject) => {
+  xhttp.onreadystatechange = event => {
+    if (xhttp.readyState === 4) {
+      if (xhttp.status === 200)
+        resolve(JSON.parse(xhttp.responseText))
+      else return reject(url_api)
     }
   };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
+  xhttp.open('GET', url_api, false)
+  xhttp.send()
+})
+}
+/*GENERA NUMERO ALEATORIO PARA SELECCIONAR EL PERSONAJE A BUSCAR Y MOSTRAR*/ 
+const randomCharacter = character => { return Math.round(character * Math.random()) }
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+/*DEFINIMOS NUEVA FUNCION SEARCH PARA EJECUTAR ASINCRONAMENTE LAS CONSULTAS*/
+const searchCharacters = async () => {
+  try {
+    const characters = await fetchData(API)
+    const TOTAL_CHARACTER=characters.info.count - 1
+    const SELECT_CHARACTER = randomCharacter(TOTAL_CHARACTER)
+    console.log(`Searching character...${SELECT_CHARACTER}`)
+    const new_character = await fetchData(API + SELECT_CHARACTER)
+    console.log(`Searching more...`)
+    const data_character = await fetchData(new_character.url)
+    console.log(`Getting data...`)
+    //console.log(`Total Character:${characters.info.count}`);
+    console.log(`*************CHARACTER**************`)
+    console.log(`Name #${SELECT_CHARACTER}: ${data_character.name}`)
+    console.log(`Status: ${data_character.status}`)
+    console.log(`Species: ${data_character.species}`)
+    console.log(`Gender: ${data_character.gender}`)
+    console.log(`Location: ${data_character.location.name}`)
+    console.log(`Image: ${data_character.image}`)
+    console.log(`************************************`)
+  } catch (error) {
+      console.error(error)
+  }
+}
+searchCharacters()
