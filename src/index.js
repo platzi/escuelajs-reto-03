@@ -1,32 +1,44 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
+const fetchData = (url_api) => {
+  return new Promise((resolve, reject) => {
+    xhttp.onreadystatechange = function () {
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
+//       console.log(xhttp.readyState)
+      if (xhttp.readyState === 4) {
+//         console.log(xhttp.status)
+        if (xhttp.status == 200) {
+//           console.log(xhttp);
+          resolve(JSON.parse(xhttp.responseText));
+        }
+        else
+          reject(url_api);
+      }
+      else
+        reject(url_api);
+    };
+    xhttp.open('GET', url_api, false);
+    xhttp.send();
+
+  });
+}
+
+const getData = async () => {
+
+  const dataResult1 = await fetchData(API);
+//   console.log('infomración juan: ' + dataResult1.results[0].id);
+   const dataResultTwo = await fetchData(`${API}${dataResult1.results[0].id}`);
+  // console.log('infomración juan: ' + dataResult1.results[0].id);
+//   console.log(dataResultTwo);
+  const dataResult3 = await fetchData(dataResultTwo.origin.url);
+
       console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+      console.log('Personajes:' + ' ' + dataResult1.info.count);
+      console.log('Primer Personaje:' + ' ' + dataResultTwo.name);
+      console.log('Dimensión:' + ' ' + dataResult3.dimension);
+}
+
+getData();
