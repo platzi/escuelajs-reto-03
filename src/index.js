@@ -38,6 +38,7 @@ const searchCharacters = async () => {
     console.log(`Species: ${data_character.species}`)
     console.log(`Gender: ${data_character.gender}`)
     console.log(`Location: ${data_character.location.name}`)
+    console.log(`Image: ${data_character.image}`)
     console.log(`************************************`)
   } catch (error) {
       console.error(error)
