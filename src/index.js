@@ -33,3 +33,62 @@ fetchData(API, (error1, data1) => {
     })
   })
 })
+
+const fetchDataWithPromise = (url_api) => {
+	return new Promise((resolve, reject) => {
+		xhttp.onreadystatechange = function (event) {
+			if (xhttp.readyState === 4) {
+				if (xhttp.status === 200)
+					resolve(xhttp.responseText)
+				else 
+					reject({
+						status: this.status,
+						statusText: xhttp1.statusText
+					})
+			}
+		};
+		xhttp.open('GET', url_api, false)
+		xhttp.send()
+	})
+}
+
+let data1 ={}
+let data2 ={}
+let data3 ={}
+
+fetchDataWithPromise(API).then(data => {
+	data1 = JSON.parse(data)
+	console.log('Primer Llamado Promise...')
+	return fetchDataWithPromise(`${API}${data1.results[0].id}`)
+}).then(data => {
+	data2 = JSON.parse(data)
+	console.log('Segundo Llamado Promise...')
+	return fetchDataWithPromise(data2.origin.url)
+}).then(data => {
+	data3 = JSON.parse(data)
+	console.log('Tercer Llamado Promise...')
+	console.log(`Personajes: ${data1.info.count}`)
+	console.log(`Primer Personaje: ${data2.name}`)
+	console.log(`Dimensión: ${data3.dimension}`)
+}).catch(error => {
+	console.log(error)
+})
+
+const doRequestsWithAsyncAwait = async() => {
+	let data1 = await fetchDataWithPromise(API);	
+	data1 = JSON.parse(data1)	
+	console.log('Primer Llamado async await...')
+	let data2 = await fetchDataWithPromise(`${API}${data1.results[0].id}`)
+	data2 = JSON.parse(data2)
+	console.log('Segundo Llamado async await...')
+	let data3 = await fetchDataWithPromise(data2.origin.url)
+	data3 = JSON.parse(data3)
+	console.log('Tercer Llamado async await...')
+	console.log(`Personajes: ${data1.info.count}`)
+	console.log(`Primer Personaje: ${data2.name}`)
+	console.log(`Dimensión: ${data3.dimension}`)
+}
+
+doRequestsWithAsyncAwait().catch(error => {
+    console.log('Error', error)
+})
