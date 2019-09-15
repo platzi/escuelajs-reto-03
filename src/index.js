@@ -1,4 +1,5 @@
-let API = 'https://rickandmortyapi.com/api/character/'; // success
+const API = 'https://rickandmortyapi.com/api/character/'; // success
+let REGISTERS_COUNT;
 // API = 'https://rickandmortyapi.com/api/characters/';// error
 
 /*
@@ -36,7 +37,7 @@ function renderInput(message, element) {
 }
 
 
-function renderImage (src, element) {
+function renderImage(src, element) {
   // eslint-disable-next-line no-console
   console.log(`Drawing element: ${element} with ${src}`);
   const $elementObj = document.querySelector(element);
@@ -44,85 +45,52 @@ function renderImage (src, element) {
   //
 }
 
-function fetchData({ urlApi, callbacks = false, success = () => {}, error = () => {} }) {
-  const request = new XMLHttpRequest();
-  request.onreadystatechange = (event) => {
-    if (request.readyState === 4) {
-      // console.log(event);
-      if (request.status === 200) { // success
-        // console.log(`HTTP Response: ${request.status}`);
-        // console.log(request.responseText);
-        success(request.responseText);
-      } else { // error
-        // renderInput("entramos en el error");
-        // renderInput(event.target.responseText);
-        error(request);
-      }
+function getCharacter(URL_API) {
+  fetch(URL_API, {}).then((response) => {
+    if (response.status === 200) {
+      return response.json();
     }
-  };
-  request.open('GET', urlApi, false);
-  request.send(null);
-}
-
-function data3(responseText) {
-  // console.log('responseJSON: ');
-  const response = JSON.parse(responseText);
-  // console.log(response);
-  renderInput(response.dimension, '#characterDimension');
-}
-
-function data2(responseText) {
-  const response = JSON.parse(responseText);
-  // debugger;
-  // alert(response.image);
-  renderImage(response.image, '#characterImage');
-  renderInput(`${response.name}`, '#characterName');
-  if (response.origin.url) {
-    const urlApi = response.origin.url;
-    fetchData({
-      urlApi,
-      success: data3,
-      error: consoleError,
-    });
-  }else{
-    renderInput('no especificada', '#characterDimension');
-  }
-}
-
-const data1 = (responseText) => {
-  // const ELEMENTS = (JSON.parse(response)); // result 1
-  const characters = JSON.parse(responseText);
-  const character = characters.results[0];
-  const urlApi = API + character.id;
-  const charactersCount = characters.info.count;
-  renderInput(charactersCount, '#totalRecords');
-
-  const $characterIdInput = document.getElementById('idCharacter');
-  // Asignar como valor máximo del input del id el máximo de personajes 
-  $characterIdInput.setAttribute('max', charactersCount);
-
-  // console.log(character.id === 1);
-  // debugger;
-  fetchData({
-    urlApi,
-    success: data2,
-    error: consoleError,
+    // debugger;
+    return 0;
+  }).then((data) => {
+    if (data) {
+      // resultado 2
+      const NAME = data.name;
+      const IMAGE_URL = data.image;
+      renderInput(`${NAME}`, '#characterName');
+      renderImage(IMAGE_URL, '#characterImage');
+      const URL_API = data.origin.url;
+      if (URL_API) {
+        fetch(URL_API, {}).then((response) => response.json()).then((data) => {
+          // resultado 3
+          const DIMENSION = data.dimension;
+          renderInput(DIMENSION, '#characterDimension');
+        });
+      }
+    } else {
+      const DIMENSION = 'dimension desconocida';
+      renderInput(DIMENSION, '#characterDimension');
+      // eslint-disable-next-line no-alert
+      alert('No encontramos el personaje');
+    }
   });
-};
-
-fetchData({
-  urlApi: API,
-  success: data1,
-  error: consoleError,
-});
+}
 
 function getCharacters() {
   const id = document.querySelector('#idCharacter').value;
-  fetchData({
-    urlApi: API + id,
-    success: data2,
-    error: consoleError,
-  });
+  if (id) {
+    getCharacter(API + id);
+  } else {
+    getCharacter(API + 1);
+  }
 }
 
-// Botón que saque el personaje desde el id
+fetch(API, {}).then((response) => response.json()).then((data) => {
+  // resultado 1
+  REGISTERS_COUNT = data.info.count;
+  const $idCharacter = document.querySelector('#idCharacter');
+  $idCharacter.setAttribute('max', REGISTERS_COUNT);
+  renderInput(REGISTERS_COUNT, '#totalRecords');
+  const URL_API = API + data.results[0].id;
+  getCharacter(URL_API);
+});

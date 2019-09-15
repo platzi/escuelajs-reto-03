@@ -247,13 +247,16 @@ body {
   grid-gap: 10px;
 }
 .inputWrapper.getCharacter{
-  grid-template-columns: 100px 3fr!important;
+  /* grid-template-columns: 100px 3fr!important; */
+  grid-template-columns: 1fr;
+  text-align: center;
 
 }
 .inputWrapper.getCharacter input{
   /* border-radius: 0; */
   padding-left: 10px;
   text-align: left;
+  
 } 
 .inputWrapper.getCharacter  button{
   background: linear-gradient(#21C08B, #AB88FF);
