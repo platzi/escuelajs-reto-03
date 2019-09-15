@@ -9,5 +9,5 @@ Usuario Platzi: @hyfi06
 
 # Retos:
   - [x] Primer problema
-  - [X] Segundo problema
-  - [ ] Tercer problema
+  - [x] Segundo problema
+  - [x] Tercer problema
