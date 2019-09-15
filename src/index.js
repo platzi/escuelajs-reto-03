@@ -1,7 +1,7 @@
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-const COMPLETED_STATE = 4;
 const STATUS_OK = 200;
+const COMPLETED_STATE = 4;
 const API = 'https://rickandmortyapi.com/api/character/';
 
 const fetchData = (url_api) => {
@@ -21,15 +21,11 @@ const fetchData = (url_api) => {
   );
 };
 
-const promiseA = fetchData(API);
-const promiseB = promiseA.then(data1 => fetchData(`${API}${data1.results[0].id}`));
-const promiseC = promiseB.then(data2 => fetchData(data2.origin.url));
-
 const fetchAllData = async () =>{
   try {
-    const dataA = await promiseA;
-    const dataB = await promiseB;
-    const dataC = await promiseC;
+    const dataA = await fetchData(API);
+    const dataB = await fetchData(`${API}${dataA.results[0].id}`);
+    const dataC = await fetchData(dataB.origin.url);
     console.log(`Personajes: ${dataA.info.count}`);
     console.log(`Primer Personaje: ${dataB.name}`);
     console.log(`Dimensión: ${dataC.dimension}`);
