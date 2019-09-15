@@ -28,20 +28,29 @@
 
 
         <div class="rickAndMorty">
-            <label for="">Total de registros</label>
-            <input type="text" name="" id="totalRecords" disabled="true">
+            <div class="inputWrapper recordsTotal">
+                <label for="">Total de registros</label>
+                <input type="text" name="" id="totalRecords" disabled="true">
+            </div>
             <br>
-            <label for="">Nombre</label>
-            <input type="text" name="" id="characterName" disabled="true">
+            <div class="inputWrapper characterName">
+                <label for="">Nombre</label>
+                <input type="text" name="" id="characterName" disabled="true">
+            </div>
             <br>
-            <label for="">Dimension</label>
-            <input type="text" name="" id="characterDimension" disabled="true">
+            <div class="inputWrapper characterDimension">
+                <label for="">Dimension</label>
+                <input type="text" name="" id="characterDimension" disabled="true">
+            </div>
             <br>
-            <img src="" alt="" id="characterImage">
+            <figure action="" class="characterImageWrapper">
+                <img src="" alt="" id="characterImage">
+            </figure>
             <br>
-            <input type="text" name="" id="idCharacter" placeholder="character id">
-            <br>
-            <button onclick="getCharacters()">Obtener personaje</button>
+            <div class="inputWrapper getCharacter">
+                <input min="1" type="number" onmouseup="getCharacters()" on name="" id="idCharacter" placeholder="character id">
+                <button onclick="getCharacters()" id="getCharactersButton">Obtener personaje</button>
+            </div>
         </div>
 
 

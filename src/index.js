@@ -94,7 +94,13 @@ const data1 = (responseText) => {
   const characters = JSON.parse(responseText);
   const character = characters.results[0];
   const urlApi = API + character.id;
-  renderInput(characters.info.count, '#totalRecords');
+  const charactersCount = characters.info.count;
+  renderInput(charactersCount, '#totalRecords');
+
+  const $characterIdInput = document.getElementById('idCharacter');
+  // Asignar como valor máximo del input del id el máximo de personajes 
+  $characterIdInput.setAttribute('max', charactersCount);
+
   // console.log(character.id === 1);
   // debugger;
   fetchData({

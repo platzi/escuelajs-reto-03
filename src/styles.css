@@ -107,7 +107,7 @@ body {
 }
 .rick-morty-page{
   background: linear-gradient(#21C08B, #AB88FF);
-  height: 100vh;
+  min-height: 100vh;
 }
 .rick-morty-page .header, .rick-morty-page .footer{
   background: none;
@@ -233,6 +233,74 @@ body {
     width: 33%;
     margin: 0 auto;
     padding: 30px;
+    box-shadow: 11px 10px 18px 0px rgb(107,116,153);
+    border-radius: 10px;
+}
+.characterImageWrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+.inputWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+.inputWrapper.getCharacter{
+  grid-template-columns: 100px 3fr!important;
+
+}
+.inputWrapper.getCharacter input{
+  /* border-radius: 0; */
+  padding-left: 10px;
+  text-align: left;
+} 
+.inputWrapper.getCharacter  button{
+  background: linear-gradient(#21C08B, #AB88FF);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
+.inputWrapper.getCharacter:hover  button{
+  background: linear-gradient(#2a775e, #4b28a0);
+ 
+}
+
+.inputWrapper input {
+    border-radius: 15px;
+    font-size: 1em;
+    text-align: center;
+    height: 3em;;
+}::placeholder {
+  
+}
+.inputWrapper label{
+  /* border: 1px solid red; */
+  font-weight: 700;
+  font-size: 1.3em;
+  background-blend-mode: hue;
+  border-radius: 5px;
+}
+.inputWrapper.recordsTotal {
+  height: 30px;
+  margin: 0;
+  /* display: block; */
+  background: purple;
+  width: 100%;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  grid-template-columns: 100px 100px;
+}
+.inputWrapper.recordsTotal input, .inputWrapper.recordsTotal label {
+  padding-left: 10px;
+  font-size: 10px;
+  border: none;
+  background: no-repeat;
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  /* text-align: center; */
 }
 
 @media screen and (max-width: 600px) {
