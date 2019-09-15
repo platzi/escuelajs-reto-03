@@ -24,8 +24,11 @@ const fetchData = (url_api) => {
 const fetchAllData = async () =>{
   try {
     const dataA = await fetchData(API);
+    console.log('Primer Llamado...')
     const dataB = await fetchData(`${API}${dataA.results[0].id}`);
+    console.log('Segundo Llamado...')
     const dataC = await fetchData(dataB.origin.url);
+    console.log('Tercero Llamado...')
     console.log(`Personajes: ${dataA.info.count}`);
     console.log(`Primer Personaje: ${dataB.name}`);
     console.log(`Dimensión: ${dataC.dimension}`);
