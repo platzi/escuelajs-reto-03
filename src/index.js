@@ -1,35 +1,41 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+var API = 'https://rickandmortyapi.com/api/character/'
+var xhttp = new XMLHttpRequest()
+let personajes,primer_personaje,dimension_personaje
+const existError = error => console.log(`Error: ${error}`)
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
+/*FUNCION FECTHDATA CREA Y RETORNA LOS RESULTADOS DE LA PROMESA*/
+const fetchData = url_api => {
+  return new Promise((resolve, reject) => {
+  xhttp.onreadystatechange = event => {
     if (xhttp.readyState === 4) {
       if (xhttp.status === 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
+        resolve(JSON.parse(xhttp.responseText))
+      else return reject(url_api)
     }
   };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
-//console.log('test');
-fetchData(API,  (error1, data1) => {
-  if (error1) return console.error('Error' + ' ' + error1);
-  data1=JSON.parse(data1)
-  fetchData(API + data1.results[0].id, (error2, data2) => {
-    if (error2) return console.error('Error '+ error2);
-    data2=JSON.parse(data2)
+  xhttp.open('GET', url_api, false)
+  xhttp.send()
+})
+}
+
+/*OBTENEMOS RESULTADOS DE PROMESA*/
+fetchData(API)
+  .then(data1 => {
+    console.log('Primer Llamado...')
+    personajes=data1
+    return fetchData(API + personajes.results[0].id)
+  })
+  .then(data2 => {
     console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, (error3, data3) => {
-      if (error3) return console.error(error3);
-      data3=JSON.parse(data3)
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-
-  });
-
-});
+    primer_personaje=data2
+    return fetchData(primer_personaje.origin.url)
+  })
+  .then(data3 => {
+    dimension_personaje=data3
+    console.log('Tercer Llamado...')
+    console.log(`Total Personajes: ${personajes.info.count}`)
+    console.log(`Nombre Primer Personaje: ${primer_personaje.name}`)
+    console.log(`Dimensión: ${dimension_personaje.dimension}`)
+  })
+  .catch(existError)
