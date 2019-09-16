@@ -1,36 +1,46 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = 'https://rickandmortyapi.com/api/character/';
+/* var xhttp = new XMLHttpRequest();
+ */
 
-function fetchData(url_api, callback) {
-    xhttp.onreadystatechange = function (event) {
+const apiData = new Promise((results, reject) =>{
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = (event) => {
+      
         /*     console.log(xhttp.readyState) */
         if (xhttp.readyState === 4) {
             if (xhttp.status == 200) {
-                callback(null, xhttp.responseText);
-            } else return callback(url_api);
+                results(JSON.parse(xhttp.responseText))
+            } else {
+                reject(error(xhttp.statusText))
+            };
         }
     };
-    xhttp.open('GET', url_api, false);
-    xhttp.send();
-};
 
-fetchData(API, function (error1, data1) {
-    if (error1) return console.error('Error' + ' ' + error1);
-    console.log('Primer Llamado...')
-    data1 = JSON.parse(data1)
-    fetchData(API + data1.results[0].id, function (error2, data2) {
-        if (error2) return console.error(error1);
-        console.log('Segundo Llamado...')
-        data2 = JSON.parse(data2)
-        fetchData(data2.origin.url, function (error3, data3) {
-            if (error3) return console.error(error3);
-            data3 = JSON.parse(data3)
-            console.log('Tercero Llamado...')
-            console.log('Personajes:' + ' ' + data1.info.count);
-            console.log('Primer Personaje:' + ' ' + data2.name);
-            console.log('Dimensión:' + ' ' + data3.dimension);
-        });
-    });
-});
+    xhttp.open('GET', API, false);
+    xhttp.send();
+})
+apiData
+    .then((datos) => {
+        personajes = datos.info.count
+        return datos
+    })
+    .then((datos2) => {
+        primerPersonaje= datos2.results[0].name
+        return datos2
+    })
+    .then((datos3) => {
+        dimension = datos3.results[0].origin.name
+        console.log(`Personajes: ${personajes}`);
+        console.log(`Primer Personaje: ${primerPersonaje}`);
+        console.log(`Dimensión: ${dimension}`);
+        return datos3    
+    })
+    .then((datos4) =>{
+       var numero = prompt("Numero personaje");
+        personajeSeleccionado = datos4.results[numero]
+        console.log(personajeSeleccionado)
+    })
+    .catch((error) => { console.log(`se presento el siguiente ${error}`)})
