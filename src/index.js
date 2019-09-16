@@ -22,6 +22,7 @@ const apiData = new Promise((results, reject) =>{
     xhttp.open('GET', API, false);
     xhttp.send();
 })
+const prompts = require('prompts');
 apiData
     .then((datos) => {
         personajes = datos.info.count
@@ -39,8 +40,23 @@ apiData
         return datos3    
     })
     .then((datos4) =>{
-       var numero = prompt("Numero personaje");
-        personajeSeleccionado = datos4.results[numero]
-        console.log(personajeSeleccionado)
+    //utilizando el objero @prompts asignado al let numero
+    //se le preguntara al usuario el numero de id del personaje
+    //que quiere ver.      
+        (async () => {
+            let numero = await prompts({
+              type: 'number',
+              name: 'value',
+              message: '¿Qué numero de personaje quieres ver?',
+              validate: value => value > 494 ? `Numero fuera del rango` : true
+            });
+           
+          
+            personajeSeleccionado = datos4.results[numero.value - 1]
+            console.log(`id personaje : ${personajeSeleccionado.id}`)
+            console.log(`Nombre personaje : ${personajeSeleccionado.name}`)
+            console.log(`Dimensión : ${personajeSeleccionado.origin.name}`)
+          })();
+
     })
     .catch((error) => { console.log(`se presento el siguiente ${error}`)})
