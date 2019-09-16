@@ -15,6 +15,9 @@ npm run start
 ### Primer problema
 La aplicación tiene errores que no permiten ejecutarla, lee detenidamente el código y determina dónde se encuentran al ejecutarlo en la consola.
 
+-Primer error detectado: Se encontro que la comparacion xhttp.readyState === '4' no era valida por que la funcion regresa un valor numerico, por lo que al hacer la comparación estricta nunca daba verdadero
+-Segundo error detectado: Se tuvo que utilizar la funcion JSON.parser para convertir el string que se recibe de la API para convertirlo en un objeto y asi poder procesarlo de tal forma
+
 ### Segundo Problema
 Una vez que tu aplicación ya esté funcionando convierte el código a ECMAScript 6 (ES6)
 * Arrow Functions
