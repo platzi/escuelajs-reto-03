@@ -1,21 +1,28 @@
-const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+var XMLHttpRequest = require(`xmlhttprequest`).XMLHttpRequest;
 
-const API = 'https://rickandmortyapi.com/api/character/';
-const request = new XMLHttpRequest()
-// Reto 3 resolviendo reto con promesas
+var API = `https://rickandmortyapi.com/api/character/`;
+var xhttp = new XMLHttpRequest();
 
 const fetchData = (url_api) => {
-  return new Promise((sePudo, todoMal) =>{
-    request.onreadystatechange = () => {
-      if (request.readyState === 4) {
-        if (request.status == 200)
-        sePudo(JSON.parse(request.responseText));
-        else return todoMal(url_api);
+  return new Promise((resolve, reject) => {
+    xhttp.onreadystatechange = (event) => {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status == 200)
+          resolve(JSON.parse(xhttp.responseText));
+        else return reject(url_api);
       }
     };
-    request.open('GET', url_api, false);
-    request.send();
+    xhttp.open(`GET`, url_api, false);
+    xhttp.send();
   })
+};
+
+let data1;
+let data2;
+let data3;
+
+function onError() {
+  console.log('Error');
 }
 
 fetchData(API)
@@ -36,5 +43,4 @@ fetchData(API)
     console.log(`Primer personaje: ${data2.name}`);
     console.log(`Dimensión: ${data3.dimension}`);
   })
-  .catch(`Error`)
-
+  .catch(onError)
