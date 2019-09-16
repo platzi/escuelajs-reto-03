@@ -23,6 +23,8 @@ Una vez que tu aplicación ya esté funcionando convierte el código a ECMAScrip
 * Arrow Functions
 * Template Strings
 
+Se ha resuelto el segundo problema
+
 ### Tercer Problema
 Transforma el código escrito en ECMAScript6(ES6) para que funcione con promesas y así evitar el Callback Hell del final.
 

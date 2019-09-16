@@ -9,5 +9,5 @@ Usuario Platzi:th3_bu6
 
 # Retos:
   - [X] Primer problema
-  - [ ] Segundo problema
+  - [X] Segundo problema
   - [ ] Tercer problema
