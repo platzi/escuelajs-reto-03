@@ -1,33 +1,35 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const fetch = require("node-fetch");
 
 var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = (event) => {
-    if (xhttp.readyState === 4) {
-      if (xhttp.status == 200){
-        callback(null, JSON.parse(xhttp.responseText));
-      }
-      else return callback(true, url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
 
-fetchData(API, (error1, data1) => {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, (error2, data2) => {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, (error3, data3) => {
-      if (error3) return console.error(error3);
-      console.log('Tercer Llamado...')
-      console.log(`Personajes: ${data1.info.count}`);
-      console.log(`Primer Personaje: ${data2.name}`);
-      console.log(`Dimensión: ${data3.dimension}`);
-    });
+async function getData(url){
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
+async function obtenerPersonajes(url){
+  const response = await getData(url);
+  const personajes = response.info
+  return personajes;
+}
+async function obtenerPersonaje(url, id){
+  const response = await getData(url);
+  const personaje = response.results[id]
+  return personaje;
+}
+
+async function obtenerDimensionPersonaje(url){
+  const response = await getData(url);
+  return response
+}
+obtenerPersonajes(API).then(personajes => console.log('Personajes:',personajes.count));
+obtenerPersonaje(API, 0)
+.then(personaje =>{
+    console.log('Primer Personaje:' ,personaje.name);
+    obtenerDimensionPersonaje(personaje.origin.url)
+      .then(response => console.log('Dimensión:', response.dimension));
   });
-});
+
+    

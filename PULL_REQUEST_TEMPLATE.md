@@ -10,4 +10,4 @@ Usuario Platzi:th3_bu6
 # Retos:
   - [X] Primer problema
   - [X] Segundo problema
-  - [ ] Tercer problema
+  - [X] Tercer problema
