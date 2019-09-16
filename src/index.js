@@ -2,49 +2,53 @@ const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
 
-const fetchData = (url_api, callback) => {
-    xhttp.onreadystatechange = function(event) {
-        if (xhttp.readyState === 4) {
-            if (xhttp.status === 200) {
-                return callback(null, xhttp.responseText);
-            } else {
-                return callback(url_api);
+const obtenerData = url => {
+    return new Promise((resolve, reject) => {
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState === 4) {
+                if (xhttp.status == 200) {
+                    const response = JSON.parse(xhttp.responseText);
+                    return resolve(response);
+                } else {
+                    return reject(new Error('Error'));
+                }
             }
         }
-    };
-    xhttp.open('GET', url_api, false);
-    xhttp.send();
-};
+        xhttp.open('GET', url, false);
+        xhttp.send();
+    })
+}
 
-console.log('Primer Llamado...')
-fetchData(API, function(error1, data1) {
+const obtenerDataPorPromesa = async url => {
+    try {
 
-    if (error1) {
-        return console.error(`Error ${error1}`);
+        console.log('Realizando primera consulta...');
+        let data = await obtenerData(url);
+
+        console.log('Realizando segunda consulta...');
+        let primerPersonaje = await obtenerData(
+            `${API}${data.results[0].id}`
+        );
+
+        console.log('Realizando tercera consulta...');
+        let ubicacion = await obtenerData(`${primerPersonaje.origin.url}`);
+
+
+        let cantidadPersonajes = data.info.count;
+        let dimension = ubicacion.dimension;
+
+        console.log('');
+        console.log('Resultados:');
+        console.log('-----------');
+        console.log(`Cantidad de personajes: ${cantidadPersonajes}`);
+        console.log(`Primer Personaje: ${primerPersonaje.name}`);
+        console.log(`Dimensión: ${dimension}`);
+
+    } catch (error) {
+
+        console.log(error.text);
+
     }
+}
 
-    data1 = JSON.parse(data1);
-    console.log(`Personajes: ${data1.info.count}`);
-
-    console.log('Segundo Llamado...')
-    fetchData(API + data1.results[0].id, function(error2, data2) {
-
-        if (error2) {
-            return console.error(`Error ${error2}`);
-        }
-
-        data2 = JSON.parse(data2)
-        console.log(`Primer Personaje: ${data2.name}`);
-
-        console.log('Tercer Llamado...')
-        fetchData(data2.origin.url, function(error3, data3) {
-
-            if (error3) {
-                return console.error(`Error: ${error3}`);
-            }
-
-            data3 = JSON.parse(data3)
-            console.log(`Dimensión: ${data3.dimension}`);
-        });
-    });
-});
+obtenerDataPorPromesa(API);
