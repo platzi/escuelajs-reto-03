@@ -1,3 +1,5 @@
+//Reto: ENCONTAR ERRORES
+
 //var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 //Se agregaron console.log para depurar el código e ir encontrado los errores
