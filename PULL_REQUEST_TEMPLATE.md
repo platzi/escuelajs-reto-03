@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Ingrid Sagrero
+Usuario Platzi: ingridSag
 
 ## Ciudad
-- [ ] Ciudad de México
+- [x] Ciudad de México
 - [ ] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
+  - [x] Primer problema
+  - [x] Segundo problema
   - [ ] Tercer problema
