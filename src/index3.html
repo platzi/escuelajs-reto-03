@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Async Await</title>
+    <script>
+      const API = 'https://rickandmortyapi.com/api/character/';
+
+      const getInfo = async url => {
+        try {
+          let infoData = await getData(url);
+          let infoPersonage = await getPersonage(url + infoData.results[0].id);
+          let infoDimension = await getDimension(infoPersonage.origin.url);
+
+          console.log(`Personajes: ${infoData.info.count}`);
+          console.log(`Primer Personaje: ${infoPersonage.name}`);
+          console.log(`Dimensión: ${infoDimension.dimension}`);
+        } catch (error) {
+          onError(error);
+        }
+      };
+
+      const getDimension = async url => {
+        const response = await fetch(url);
+        if (response.ok) {
+          dimensionJson = await response.json();
+          return dimensionJson;
+        } else {
+          onError(response.status, 'getDimension');
+        }
+      };
+
+      const getPersonage = async url => {
+        const response = await fetch(url);
+        if (response.ok) {
+          personageJson = await response.json();
+          return personageJson;
+        } else {
+          onError(response.status, 'getPersonage');
+        }
+      };
+
+      const getData = async url => {
+        const response = await fetch(url);
+        if (response.ok) {
+          dataJson = await response.json();
+          return dataJson;
+        } else {
+          onError(response.status, 'getData');
+        }
+      };
+
+      getInfo(API);
+
+      function onError(error, nameFunction) {
+        console.log(`Ocurrio el sigueinte error: ${error}, en ${nameFunction}`);
+      }
+    </script>
+  </head>
+  <body></body>
+</html>
