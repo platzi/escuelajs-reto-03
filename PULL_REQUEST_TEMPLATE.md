@@ -9,4 +9,4 @@ Usuario Platzi: @danrmrz
 # Retos:
   - [x] Primer problema
   - [x] Segundo problema
-  - [ ] Tercer problema
+  - [x] Tercer problema
