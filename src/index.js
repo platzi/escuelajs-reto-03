@@ -21,18 +21,18 @@ const fetchData = url_api => {
 
 fetchData(API)
   .then(data1 => {
-    console.log ("Primer Llamado...")
     storage.push(data1);  
+    console.log ("Primer Llamado...")
     return fetchData(API+data1.results[0].id)
   })
   .then(data2 =>{
-    console.log ("Segundo Llamado...")
     storage.push(data2)
+    console.log ("Segundo Llamado...")
     return fetchData(data2.origin.url)
   })
   .then(data3 =>{
-    console.log("Tercer LLamado...")
     storage.push(data3)
+    console.log("Tercer LLamado...")
     console.log(`Personajes: ${storage[0].info.count}`)
     console.log(`Primer Personaje: ${storage[1].name}`)
     console.log(`Dimension: ${storage[2].dimension}`)
