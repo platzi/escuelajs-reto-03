@@ -1,13 +1,12 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Daniel Ramirez Ramirez
+Usuario Platzi: @danrmrz
 
 ## Ciudad
-- [ ] Ciudad de México
-- [ ] Bogotá
+- Ciudad de México
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [x] Primer problema
+  - [x] Segundo problema
+  - [x] Tercer problema
