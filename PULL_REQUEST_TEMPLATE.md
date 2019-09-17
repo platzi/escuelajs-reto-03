@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Jesús Antonio García Valadez
+Usuario Platzi: @JesusGarciaValadez
 
 ## Ciudad
-- [ ] Ciudad de México
+- [x] Ciudad de México
 - [ ] Bogotá
 
 # Retos:
   - [ ] Primer problema
   - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [x] Tercer problema
