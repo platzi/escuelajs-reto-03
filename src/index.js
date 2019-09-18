@@ -15,7 +15,9 @@ const fetchData = (url_api, callback) => {
   xhttp.send();
 };
 
-fetchData(API, (error1, data1) => {
+fetchData(API, 
+  
+  (error1, data1) => {
   if (error1) return console.error(`Error ${error1}`);
   console.log('Primer Llamado...')
   const dataJson = JSON.parse(data1)
@@ -32,4 +34,11 @@ fetchData(API, (error1, data1) => {
       console.log(`Dimensión: ${data3Json.dimension}`);
     });
   });
+
+  new Promise(function(resolve, reject){
+      //https://javascript.info/promise-basics
+      https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise
+    } 
+  )
+
 });
