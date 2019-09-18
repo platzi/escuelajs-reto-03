@@ -37,3 +37,6 @@ fetchData(API)
     console.log(`Primer Personaje: ${storage[1].name}`)
     console.log(`Dimension: ${storage[2].dimension}`)
   })
+  .catch(Error =>{ 
+    console.log("Se ha producido un error...")
+  })
