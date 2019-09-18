@@ -10,4 +10,4 @@ Usuario Platzi: zrosales@qualitas.com.mx
 # Retos:
   - [ X ] Primer problema
   - [ X ] Segundo problema
-  - [  ] Tercer problema
+  - [ X ] Tercer problema
