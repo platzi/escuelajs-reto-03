@@ -1,32 +1,69 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const URL_BASE = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
+
 
 function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
+  
+  xhttp.onreadystatechange = event => {
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+    if (xhttp.readyState === 4) {
+
+      if (xhttp.status === 200){
+    
+        let response = JSON.parse(xhttp.responseText)
+        return callback(null, response);
+      }
+      else{
+    
+        return callback(url_api);
+      }
+    }
+  }
+  xhttp.open('GET', url_api, true);
+  xhttp.send();
+}
+
+const getCharacters = url => {
+
+  return new Promise((resolve, reject)=> {
+    
+    try{
+      fetchData(url,function (error, data){
+        resolve(data)
+      })
+    }
+    catch(url){
+      reject(url)
+    }
+  })
+}
+
+let url_request = URL_BASE;
+
+
+const onErr = url => console.log(`An error has happened in ${url}`)
+
+getCharacters(url_request)
+.then(function(data){
+  
+  console.log(`First Request...`)
+  console.log(`# Characters: ${data.info.count}`)
+  console.log(`---------------------------------`)
+  url_request = URL_BASE + data.results[0].id
+  return getCharacters(url_request)
+})
+.then(function(data){
+  console.log(`Second Request...`)
+  console.log(`First character: ${data.name}`)
+  console.log(`---------------------------------`)
+  url_request = data.origin.url
+  return getCharacters(url_request)
+})
+.then(function(data){
+  console.log(`Third Request...`)
+  console.log(`Dimension: ${data.dimension}`)
+  console.log(`---------------------------------`)
+})
+.catch(onErr)
