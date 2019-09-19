@@ -1,32 +1,43 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+/*Fernando Rene Hernandez Garcia */
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const API = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const PERSONAJE = {};
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
-
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
+function fetchData(urlApi) {
+  return new Promise((resolve, reject) => {
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status === 200) resolve(JSON.parse(xhttp.responseText));
+        else reject(urlApi);
+      }
+    };
+    xhttp.open('GET', urlApi, false);
+    xhttp.send();
   });
-});
+}
+
+function imprimeError(error) {
+  console.log(error);
+}
+
+fetchData(API)
+  .then((data) => {
+    console.log('Primer Llamado...');
+    PERSONAJE.numPersonajes = data.info.count;
+    return fetchData(API + data.results[0].id);
+  })
+  .then((data2) => {
+    console.log('Segundo Llamado...');
+    PERSONAJE.nombre = data2.name;
+    return fetchData(data2.origin.url);
+  })
+  .then((data3) => {
+    PERSONAJE.dimension = data3.dimension;
+    console.log('Tercero Llamado...');
+    console.log(`Personajes: ${PERSONAJE.numPersonajes}`);
+    console.log(`Primer Personaje: ${PERSONAJE.nombre}`);
+    console.log(`Dimensión: ${PERSONAJE.dimension}`);
+  })
+  .catch(imprimeError);
