@@ -1,32 +1,42 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+//Iraida Mercedes Barreto Díaz
+//20190918
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest; //importar modulo XMLHttpRequest
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
+const API = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+
+function fetchData (API_URL) {
+  return new Promise (function (resolve, reject){
+  
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status == 200){
+          resolve(JSON.parse(xhttp.responseText));
+        }
+        else {
+          return reject(API_URL);
+        }
+      }
+    };
+
+    xhttp.open('GET', API_URL, false);
+    xhttp.send();
+  })  
+}
+
+function onError(API){
+  console.log(`ocurrió un error en la traía de datos ${API}`)
+}
+
+fetchData (API)
+  .then (characters => {
+    console.log(`Personajes: ${characters.info.count}`)
+    console.log(`Primer personaje: ${characters.results[0].name}`)
+    return fetchData (characters.results[0].origin.url) 
+  })
+  .then (dimensions =>{
+    console.log(`Dimensión: ${dimensions.dimension}`)
+  }) 
+  .catch(onError)
