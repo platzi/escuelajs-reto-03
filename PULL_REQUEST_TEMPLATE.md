@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: renny de jesús petit jaimes
+Usuario Platzi:renny10037
 
 ## Ciudad
 - [ ] Ciudad de México
-- [ ] Bogotá
+- [X] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [X] Primer problema
+  - [X] Segundo problema
+  - [X] Tercer problema
