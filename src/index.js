@@ -3,7 +3,28 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var API = 'https://rickandmortyapi.com/api/character/';
 var xhttp = new XMLHttpRequest();
 
-const fetchData = (url_api, callback) => {
+var dataJson
+var data2Json
+
+//nueva version: promise
+const fetchData = (url_api) => {
+  
+  return new Promise((resolve, reject) => {
+
+    xhttp.onreadystatechange = function (event) {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status == 200)
+          resolve(xhttp.responseText);
+        else reject(url_api);
+      }
+    };
+    xhttp.open('GET', url_api, false);
+    xhttp.send();
+  })
+
+};
+
+/* const fetchData = (url_api, callback) => {
   xhttp.onreadystatechange = function (event) {
     if (xhttp.readyState === 4) {
       if (xhttp.status == 200)
@@ -13,9 +34,32 @@ const fetchData = (url_api, callback) => {
   };
   xhttp.open('GET', url_api, false);
   xhttp.send();
-};
+}; */
 
-fetchData(API, 
+fetchData(API)
+.then(data1=>{
+  console.log('Primer Llamado...')
+  dataJson = JSON.parse(data1)
+  return fetchData(API + dataJson.results[0].id)
+})
+.then(data2=>{
+  console.log('Segundo Llamado...')
+  data2Json = JSON.parse(data2)
+  return fetchData(data2Json.origin.url)
+  console.log(`debug`)
+})
+.then(data3 => {
+  const data3Json = JSON.parse(data3)
+      console.log('Tercero Llamado...')
+      console.log(`Personajes: ${dataJson.info.count}`)
+      console.log(`Primer Personaje: ${data2Json.name}`)
+      console.log(`Dimensión: ${data3Json.dimension}`);
+})
+.catch((url_api)=>{
+  console.error(`Error ${url_api}`);
+})
+
+/* fetchData(API, 
   
   (error1, data1) => {
   if (error1) return console.error(`Error ${error1}`);
@@ -34,11 +78,4 @@ fetchData(API,
       console.log(`Dimensión: ${data3Json.dimension}`);
     });
   });
-
-  new Promise(function(resolve, reject){
-      //https://javascript.info/promise-basics
-      https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise
-    } 
-  )
-
-});
+}); */
