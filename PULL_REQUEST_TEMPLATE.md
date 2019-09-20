@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Juan Camilo Rico Orjuela
+Usuario Platzi: juancarico92
 
 ## Ciudad
 - [ ] Ciudad de México
-- [ ] Bogotá
+- [x] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [x] Primer problema
+  - [x] Segundo problema
+  - [x] Tercer problema
