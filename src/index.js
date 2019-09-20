@@ -19,6 +19,7 @@ const fetchData = ({ method = "GET", urlApi = API }) => {
   });
 };
 
+// Third Version -> async await with try + catch
 const getData = async () => {
   try {
     let data1 = await fetchData({});
@@ -36,6 +37,7 @@ const getData = async () => {
 
 getData();
 
+// Second Version -> then + catch
 // fetchData({})
 //   .then(res => {
 //     // console.log(res);
@@ -60,3 +62,32 @@ getData();
 //       .catch(err => console.error(err));
 //   })
 //   .catch(err => console.error(`Error: ${err}`));
+
+// First Version -> Callback Hell
+// fetchData(API, function(error1, data1) {
+//   if (error1) {
+//     return console.error(`Error ${error1}`);
+//   } else {
+//     console.log("Primer Llamado...");
+//   }
+//   fetchData(API + data1.results[0].id, function(error2, data2) {
+//     if (error2) {
+//       return console.error(error1);
+//     } else {
+//       console.log("Segundo Llamado...");
+//     }
+//     fetchData(data2.origin.url, function(error3, data3) {
+//       if (error3) {
+//         return console.error(error3);
+//       } else {
+//         console.log("Tercero Llamado...");
+//         // console.log("Personajes:" + " " + data1.info.count);
+//         console.log(`Personajes: ${data1.info.count}`);
+//         // console.log("Primer Personaje:" + " " + data2.name);
+//         console.log(`Primer Personaje: ${data2.name}`);
+//         // console.log("Dimensión:" + " " + data3.dimension);
+//         console.log(`Dimensión: ${data3.dimension}`);
+//       }
+//     });
+//   });
+// });
