@@ -50,21 +50,22 @@ const fetchData = url_api => {
   });
 };
 
-fetchData(`${API}/`)
-  .then(data => {
+const getCharactersInfo = async () => {
+  try {
+    const charactersInfo = await fetchData(`${API}/`);
     process.stdout.write(`Primer Llamado…\n\r`);
-    process.stdout.write(`Personajes: ${data.info.count}\n\r`);
+    process.stdout.write(`Personajes: ${charactersInfo.info.count}\n\r`);
 
-    return (async () => await fetchData(`${API}/${data.results[0].id}`))();
-  })
-  .then(data => {
+    const firstCharacter = await fetchData(`${API}/${charactersInfo.results[0].id}`);
     process.stdout.write(`Segundo Llamado…\n\r`);
-    process.stdout.write(`Primer Personaje: ${data.name}\n\r`);
+    process.stdout.write(`Primer Personaje: ${firstCharacter.name}\n\r`);
 
-    return (async () => await fetchData(data.origin.url))();
-  })
-  .then(data => {
+    const dimensions = await fetchData(firstCharacter.origin.url);
     process.stdout.write(`Tercer Llamado…\n\r`);
-    process.stdout.write(`Dimensión: ${data.dimension}\n\r`);
-  })
-  .catch(error => process.stdout.write(`Error: ${error}\n\r`));
+    process.stdout.write(`Dimensión: ${dimensions.dimension}\n\r`);
+  } catch (error) {
+    process.stdout.write(`Error: ${error}\n\r`);
+  }
+};
+
+getCharactersInfo();
