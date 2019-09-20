@@ -1,32 +1,32 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const API_URL = 'https://rickandmortyapi.com/api/character/';
+const xhttp = new XMLHttpRequest();
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
-
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
+const fetchDataFromAPI = url => {
+    return new Promise((resolve, reject) => {
+        xhttp.onreadystatechange = () => {
+            const response = JSON.parse(xhttp.responseText)
+            xhttp.status === 200 ? resolve(response) : reject(new Error(`${xhttp.status}`));
+        };
+        xhttp.open("GET", url, false);
+        xhttp.send();
+    })
 };
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+const getDataFromAPI = async API_URL => {
+    try {
+        console.log("First fetch...");
+        const wholeData = await fetchDataFromAPI(API_URL);
+        console.log("Second fetch...");
+        const firstCharacter = await fetchDataFromAPI(`${API_URL}${wholeData.results[0].id}`);
+        console.log("Third fetch...");
+        const characterOrigin = await fetchDataFromAPI(`${firstCharacter.origin.url}`);
+        console.log(`There are ${wholeData.info.count} living forms in the universe`);
+        console.log(`Hi Morty, burp!, i'm ${firstCharacter.name}`);
+        console.log(`burp!, i'm from ${characterOrigin.name}`);
+    } catch (err) {
+        console.log(`Something is wrong!! | ${err}`)
+    }
+}
+getDataFromAPI(API_URL)
+
