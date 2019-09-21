@@ -20,4 +20,3 @@ fetch(API).then(response => {
     })
   );
 });
-
