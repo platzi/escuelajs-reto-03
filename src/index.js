@@ -10,7 +10,7 @@ function fetchData(url_api) {
         if (xhttp.status === 200) {
           let response = JSON.parse(xhttp.responseText);
           resolve(response);
-        } else return rejected(url_api);
+        } else rejected(url_api);
       }
     };
     xhttp.open("GET", url_api, false);
