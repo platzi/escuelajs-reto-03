@@ -1,32 +1,50 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = "https://rickandmortyapi.com/api/character/";
+const xhttp = new XMLHttpRequest();
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
-
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
+function fetchData(url_api, values = null) {
+  return new Promise((resolve, rejected) => {
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status === 200) {
+          let response = JSON.parse(xhttp.responseText);
+          if (values === null) {
+            values = [];
+          }
+          resolve([response, values]);
+        } else rejected(url_api);
+      }
+    };
+    xhttp.open("GET", url_api, false);
+    xhttp.send();
   });
-});
+}
+
+fetchData(API)
+  .then(data => {
+    let respuesta = data[0]
+    let acum = data[1];
+    acum.push(respuesta);
+    console.log("Primer Llamado...");
+    return fetchData(`${API}${respuesta.results[0].id}`, acum);
+  })
+  .then(data => {
+    let respuesta = data[0]
+    let acum = data[1];
+    acum.push(respuesta);
+    console.log("Segundo Llamado...");
+    return fetchData(respuesta.origin.url, acum);
+  })
+  .then(data => {
+    let respuesta = data[0]
+    let acum = data[1];
+    acum.push(respuesta);
+    console.log('Tercero Llamado...');
+    console.log(`Personajes: ${acum[0].info.count}`);
+    console.log(`Primer Personaje: ${acum[1].name}`);
+    console.log(`Dimensión: ${acum[2].dimension}`);
+  })
+  .catch(err => {
+    console.log(err);
+  });

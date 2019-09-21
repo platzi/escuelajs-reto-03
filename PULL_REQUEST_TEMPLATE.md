@@ -2,12 +2,15 @@
 
 Nombre:
 Usuario Platzi:
+leshz
 
 ## Ciudad
+
 - [ ] Ciudad de México
-- [ ] Bogotá
+- [*] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+
+- [*] Primer problema
+- [*] Segundo problema
+- [*] Tercer problema
