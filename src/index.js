@@ -40,7 +40,7 @@ fetchData(API)
     let respuesta = data[0]
     let acum = data[1];
     acum.push(respuesta);
-    console.log("Tercero Llamado...");
+    console.log('Tercero Llamado...');
     console.log(`Personajes: ${acum[0].info.count}`);
     console.log(`Primer Personaje: ${acum[1].name}`);
     console.log(`Dimensión: ${acum[2].dimension}`);
