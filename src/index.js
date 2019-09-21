@@ -1,32 +1,34 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const fetch = require("node-fetch");
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = 'https://rickandmortyapi.com/api/character/';
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
+async function getData(url){
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
+async function getCharacters(url){
+  const response = await getData(url);
+  const characters = response.info
+  return characters;
+}
+async function getCharacter(url, id){
+  const response = await getData(url);
+  const character = response.results[id]
+  return character;
+}
+
+async function getCharacterDimension(url){
+  const response = await getData(url);
+  return response
+}
+getCharacters(API).then(characters => console.log(`Personajes: ${characters.count} `));
+getCharacter(API, 0)
+.then(character =>{
+    console.log(`Primer Personaje: ${character.name} `);
+    getCharacterDimension(character.origin.url)
+      .then(response => console.log(`Dimensión: ${response.dimension}`));
   });
-});
+
+    
