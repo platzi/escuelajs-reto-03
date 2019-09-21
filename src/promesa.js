@@ -1,4 +1,4 @@
-var API = "https://rickandmortyapi.com/api/character/";
+const API = "https://rickandmortyapi.com/api/character/";
 //Resolucion del ejercicio 3 con fetch
 fetch(API).then(response => {
   console.log("Primer Llamado...");
