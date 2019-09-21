@@ -11,6 +11,9 @@ npm install
 ```
 npm run start
 ```
+### Dependencias
+
+node-fetch
 
 ### Primer problema
 La aplicación tiene errores que no permiten ejecutarla, lee detenidamente el código y determina dónde se encuentran al ejecutarlo en la consola.
@@ -28,7 +31,7 @@ Se ha resuelto el segundo problema
 ### Tercer Problema
 Transforma el código escrito en ECMAScript6(ES6) para que funcione con promesas y así evitar el Callback Hell del final.
 
-Se ha resuelto el tercer problema
+Se ha resuelto el tercer problema. Se propone utilizar la libreria node-fetch para obtener los datos de la API y asi reemplazar xmlhttprequest
 
 # Contributing
 If someone wants to add or improve something, I invite you to collaborate directly in this repository: [escuelajs-reto-03](https://github.com/platzi/escuelajs-reto-03/)

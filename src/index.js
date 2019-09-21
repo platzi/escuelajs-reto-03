@@ -1,7 +1,6 @@
 const fetch = require("node-fetch");
 
-var API = 'https://rickandmortyapi.com/api/character/';
-
+const API = 'https://rickandmortyapi.com/api/character/';
 
 async function getData(url){
   const response = await fetch(url);
@@ -9,27 +8,27 @@ async function getData(url){
   return data;
 }
 
-async function obtenerPersonajes(url){
+async function getCharacters(url){
   const response = await getData(url);
-  const personajes = response.info
-  return personajes;
+  const characters = response.info
+  return characters;
 }
-async function obtenerPersonaje(url, id){
+async function getCharacter(url, id){
   const response = await getData(url);
-  const personaje = response.results[id]
-  return personaje;
+  const character = response.results[id]
+  return character;
 }
 
-async function obtenerDimensionPersonaje(url){
+async function getCharacterDimension(url){
   const response = await getData(url);
   return response
 }
-obtenerPersonajes(API).then(personajes => console.log('Personajes:',personajes.count));
-obtenerPersonaje(API, 0)
-.then(personaje =>{
-    console.log('Primer Personaje:' ,personaje.name);
-    obtenerDimensionPersonaje(personaje.origin.url)
-      .then(response => console.log('Dimensión:', response.dimension));
+getCharacters(API).then(characters => console.log(`Personajes: ${characters.count} `));
+getCharacter(API, 0)
+.then(character =>{
+    console.log(`Primer Personaje: ${character.name} `);
+    getCharacterDimension(character.origin.url)
+      .then(response => console.log(`Dimensión: ${response.dimension}`));
   });
 
     
