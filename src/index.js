@@ -20,7 +20,7 @@ function fetchData(url_api, callback) {
 
   xhttp.open("GET", url_api, true);  
   xhttp.send();
-  xhttp.onreadystatechange = even=> {
+  xhttp.onreadystatechange = even => {
     if (xhttp.readyState === 4) {
       if (xhttp.status == 200) callback(null, JSON.parse(xhttp.responseText));
           reject(new Error("Algo salió mal."));
