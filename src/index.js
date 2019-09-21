@@ -23,7 +23,7 @@ function fetchData(url_api, callback) {
   xhttp.onreadystatechange = even=> {
     if (xhttp.readyState === 4) {
       if (xhttp.status == 200) callback(null, JSON.parse(xhttp.responseText));
-      else return callback(url_api);
+          reject(new Error("Algo salió mal."));
     }
   }; 
   
