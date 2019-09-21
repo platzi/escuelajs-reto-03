@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <img src="" alt="" id="image">
+  <p id="name"></p>
+  <script>
+    //
+    const $image = document.querySelector('#image')
+    const $name = document.querySelector('#name')
+    const BASE_URL = 'https://pokeapi.co/api/v2/';
+
+    function renderPokemon(pokemon) {
+      // debugger
+      // pokemon
+      $name.textContent = pokemon.name
+      $image.setAttribute('src', pokemon.sprites.front_default)
+    }
+
+    function renderMessage(message) {
+      // debugger
+      // pokemon
+      $name.textContent = message
+    }
+
+    function ajax({
+      method = 'GET',
+      url,
+      async = true,
+      done = () => {},
+      error = () => {}
+    }) {
+      function status(readyState) {
+        switch (readyState) {
+          case 0:
+            return 'no inicializado'
+            break;
+          case 1:
+            return 'cargando ...'
+          case 2:
+            return 'cargado'
+          case 3:
+            return 'interactivo'
+          case 4:
+            return 'completado'
+          default:
+            break;
+        }
+      }
+      const request = new XMLHttpRequest();
+      // method
+      // url
+      // is async?
+      console.log(status(request.readyState), request.readyState);
+      request.open(method, url, async);
+      request.send(null);
+      console.log(status(request.readyState)), request.readyState;
+      console.log(request.readyState);
+
+      request.onreadystatechange = function (event) {
+        // console.log(event);
+        console.log(request.status);
+        if (request.readyState === 4) {
+          if (request.status == 200) {
+            // debugger
+            done(JSON.parse(request.responseText))
+          } else {
+            error('Pokemon no encontrado :(')
+          }
+        }
+        console.log(status(request.readyState)), request.readyState;
+      }
+      // No se puede ocupar el return por el asyncronismo
+      //return JSON.parse(request.responseText)
+    }
+
+    const pokemon = ajax({
+      // method: 'GET',
+      url: `${BASE_URL}pokemon/25/`,
+      async: true,
+      done: renderPokemon,
+      error: renderMessage
+    });
+    // renderPokemon(pokemon)
+    //
+  </script>
+</body>
+
+</html>
