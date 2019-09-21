@@ -9,7 +9,7 @@ const fetchData = (url_api) => {
   return new Promise( 
     (resolve,reject) => {
       xhttp.onreadystatechange = (event) => {
-        if(xhttp.readyState === COMPLETED_STATE){
+        if (xhttp.readyState === COMPLETED_STATE) {
           xhttp.status === STATUS_OK 
           ? resolve(JSON.parse(xhttp.responseText))
           : reject(`ERROR - URL: ${url_api}`);
@@ -21,7 +21,7 @@ const fetchData = (url_api) => {
   );
 };
 
-const fetchAllData = async () =>{
+const fetchAllData = async () => {
   try {
     const dataA = await fetchData(API);
     console.log('Primer Llamado...')
