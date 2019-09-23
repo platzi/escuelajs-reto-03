@@ -1,32 +1,44 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
+const API = "https://rickandmortyapi.com/api/character/"
 
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
+const fetchData = (url_api = API, data = {}) => {
+  return new Promise((resolve, reject) => {
+    const xhttp = new XMLHttpRequest()
+
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status === 200) {
+          resolve({ response: JSON.parse(xhttp.responseText), data })
+        } else {
+          reject(`Error to fetch: ${url_api}`)
+        }
+      }
     }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
 
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
-  });
-});
+    xhttp.open("GET", url_api, true)
+    xhttp.send(null)
+  })
+}
+
+fetchData()
+  .then(data1 => {
+    console.log("Primer Llamado...")
+    return fetchData(`${API}${data1.response.results[0].id}`, {
+      data1: data1.response
+    })
+  })
+  .then(data2 => {
+    console.log("Segundo Llamado...")
+    return fetchData(data2.response.origin.url, {
+      ...data2.data,
+      data2: data2.response
+    })
+  })
+  .then(data3 => {
+    console.log("Tercer Llamado...")
+    console.log(`Personajes: ${data3.data.data1.info.count}`)
+    console.log(`Primer Personaje: ${data3.data.data2.name}`)
+    console.log(`Dimensión: ${data3.response.dimension}`)
+  })
+  .catch(err => console.error(err))
