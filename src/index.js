@@ -1,32 +1,64 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+const API = 'https://rickandmortyapi.com/api/character/';
 
-var API = 'https://rickandmortyapi.com/api/character/';
-var xhttp = new XMLHttpRequest();
-
-function fetchData(url_api, callback) {
-  xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
-  };
-  xhttp.open('GET', url_api, false);
-  xhttp.send();
-};
-
-fetchData(API, function (error1, data1) {
-  if (error1) return console.error('Error' + ' ' + error1);
-  console.log('Primer Llamado...')
-  fetchData(API + data1.results[0].id, function (error2, data2) {
-    if (error2) return console.error(error1);
-    console.log('Segundo Llamado...')
-    fetchData(data2.origin.url, function (error3, data3) {
-      if (error3) return console.error(error3);
-      console.log('Tercero Llamado...')
-      console.log('Personajes:' + ' ' + data1.info.count);
-      console.log('Primer Personaje:' + ' ' + data2.name);
-      console.log('Dimensión:' + ' ' + data3.dimension);
-    });
+const fetchAPI = (url) => {
+  let xhttp = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === 4) {
+        if (xhttp.status == 200) {
+          const data = JSON.parse(xhttp.responseText);
+          resolve(data);
+        } else {
+          reject(new Error("Algo salió mal."));
+        }
+      }
+    };
+    xhttp.open('GET', url, false);
+    xhttp.send(null);
   });
-});
+}
+
+async function allCalls() {
+  const first = await firstCall(API);
+  const second = await secondCall(API + first.results[0].id);
+  const third = await thirdCall(second.origin.url);
+
+  console.log(`
+  Personajes: ${first.info.count}
+  Primer personaje: ${second.name}
+  Dimensión: ${third.dimension}
+  `);
+}
+
+async function firstCall(url) {
+  try {
+    const data1 = await fetchAPI(url);
+    console.log('Primer llamado');
+    return data1;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function secondCall(url) {
+  try {
+    const data2 = await fetchAPI(url);
+    console.log(`Segundo llamado`);
+    return data2;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function thirdCall(url) {
+  try {
+    const data3 = await fetchAPI(url);
+    console.log('Tercer llamado');
+    return data3;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+allCalls();
