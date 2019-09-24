@@ -10,7 +10,7 @@ const fetchAPI = (url) => {
           const data = JSON.parse(xhttp.responseText);
           resolve(data);
         } else {
-          return reject(xhttp.status);
+          reject(new Error("Algo salió mal."));
         }
       }
     };
