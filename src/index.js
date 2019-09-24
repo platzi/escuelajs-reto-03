@@ -1,10 +1,9 @@
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const fetch = require('node-fetch');
 
 const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
 
-const fetchDataPromise = url => {   
+const fetchDataPromise = url => {
   return new Promise((resolve, reject) => {
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4) {
