@@ -10,7 +10,7 @@ const fetchAPI = (url) => {
           const data = JSON.parse(xhttp.responseText);
           resolve(data);
         } else {
-          reject(new Error("Algo salió mal."));
+          reject(new Error("Algo salió mal."));
         }
       }
     };
@@ -19,17 +19,19 @@ const fetchAPI = (url) => {
   });
 }
 
-async function todosLosLlamados() {
-  const primer = await primerLlamado(API);
-  const segundo = await segundoLlamado(API + primer.results[0].id);
-  const tercer = await tercerLlamado(segundo.origin.url);
+async function allCalls() {
+  const first = await firstCall(API);
+  const second = await secondCall(API + first.results[0].id);
+  const third = await thirdCall(second.origin.url);
 
-  console.log(`Personajes: ${primer.info.count}`);
-  console.log(`Primer personaje: ${segundo.name}`);
-  console.log(`Dimensión: ${tercer.dimension}`);
+  console.log(`
+  Personajes: ${first.info.count}
+  Primer personaje: ${second.name}
+  Dimensión: ${third.dimension}
+  `);
 }
 
-async function primerLlamado(url) {
+async function firstCall(url) {
   try {
     const data1 = await fetchAPI(url);
     console.log('Primer llamado');
@@ -39,7 +41,7 @@ async function primerLlamado(url) {
   }
 }
 
-async function segundoLlamado(url) {
+async function secondCall(url) {
   try {
     const data2 = await fetchAPI(url);
     console.log(`Segundo llamado`);
@@ -49,7 +51,7 @@ async function segundoLlamado(url) {
   }
 }
 
-async function tercerLlamado(url) {
+async function thirdCall(url) {
   try {
     const data3 = await fetchAPI(url);
     console.log('Tercer llamado');
@@ -59,4 +61,4 @@ async function tercerLlamado(url) {
   }
 }
 
-todosLosLlamados();
+allCalls();
