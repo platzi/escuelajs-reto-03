@@ -18,7 +18,7 @@ function fetchData(url_api, callback) {
 }
 
 const information = async()=> {
-//  try{
+
   try{
   let datos1; 
   await fetchData(API,  (error1, data1) => {
