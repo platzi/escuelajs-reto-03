@@ -17,24 +17,6 @@ const fetchData = (url_api) => {
   });
 };
 
-// fetchData(API)
-// .then(data1 => {
-//   console.log('Primer Llamado...')
-//   let data1Parse = JSON.parse(data1);
-//   console.log(`Personajes: ${data1Parse.info.count}`);
-//   return fetchData(API + data1Parse.results[0].id);
-// }).then(data2 =>  {
-//   console.log('Segundo Llamado...')
-//   let data2Parse = JSON.parse(data2);
-//   console.log(`Primer Personaje ${data2Parse.name}`);
-//   return fetchData(data2Parse.origin.url);
-// }).then(data3 => {
-//   let data3Parse = JSON.parse(data3);
-//   console.log(`Dimensión ${data3Parse.dimension}`);
-// }).catch((error) => {
-//   console.log(`El estado del error es: ${error}`)
-// });
-
 async function start() {
   try {
     console.log('Primer Llamado...');
