@@ -3,7 +3,7 @@ const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 const API = 'https://rickandmortyapi.com/api/character/';
 const xhttp = new XMLHttpRequest();
 
-const fetchData = url_api => {
+const fetchData = (url_api) => {
   return new Promise((resolve, reject) => {
     xhttp.onreadystatechange = () => {
       if (xhttp.readyState === 4) {
@@ -19,7 +19,7 @@ const fetchData = url_api => {
 
 const renderData = async () => {
   try {
-    console.log(`Primer llamado`);
+    console.log(`Primer llamado con cambios`);
     let data1 = await fetchData(API);
     console.log(data1.results[0].id);
     console.log('Segundo llamado...');
