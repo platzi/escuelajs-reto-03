@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Bryson Steven Mosquera Florez
+Usuario Platzi: BrysonFlorez
 
 ## Ciudad
 - [ ] Ciudad de México
-- [ ] Bogotá
+- [x] Bogotá
 
 # Retos:
-  - [ ] Primer problema
+  - [x] Primer problema
   - [ ] Segundo problema
   - [ ] Tercer problema
