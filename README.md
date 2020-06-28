@@ -5,6 +5,7 @@ Reto 3 Septiembre 14: Curso de Fundamentos de JavaScript
 
 ```
 npm install
+npm install xmlhttprequest
 ```
 # Ejecución
 
