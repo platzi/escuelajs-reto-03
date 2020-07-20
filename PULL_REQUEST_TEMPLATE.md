@@ -9,5 +9,5 @@ Usuario Platzi: LoreBratt
 
 # Retos:
   - [ ] Primer problema
-  - [X] Segundo problema
-  - [ ] Tercer problema
+  - [ ] Segundo problema
+  - [X] Tercer problema
