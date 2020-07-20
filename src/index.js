@@ -5,11 +5,14 @@ var xhttp = new XMLHttpRequest();
 
 function fetchData(url_api, callback) {
   xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
-      else return callback(url_api);
-    }
+    if (xhttp.readyState === 4) {
+      if (xhttp.status === 200)
+        callback(null, JSON.parse(xhttp.responseText));
+      else {
+        const error= new Error('Error en el llamado al API'); 
+        return callback(error, null);
+      }
+    }  
   };
   xhttp.open('GET', url_api, false);
   xhttp.send();
