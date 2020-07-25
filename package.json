@@ -4,7 +4,9 @@
   "description": "Reto 3 Septiembre 14: Curso de Fundamentos de JavaScript",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start:1": "node src/index.js",
+    "start:2": "node src/ToES6.js",
+    "start:3": "node src/ToPromises.js"
   },
   "repository": {
     "type": "git",
