@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Harold Steven Peñaloza Escalante
+Usuario Platzi: @HarpeBlue
 
 ## Ciudad
 - [ ] Ciudad de México
-- [ ] Bogotá
+- [X] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [X] Primer problema
+  - [X] Segundo problema
+  - [X] Tercer problema
