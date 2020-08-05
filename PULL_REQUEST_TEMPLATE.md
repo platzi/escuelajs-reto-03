@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
 Nombre:
-Usuario Platzi:
+Usuario Platzi: @waltersalas
 
 ## Ciudad
-- [ ] Ciudad de México
+- [x] Ciudad de México
 - [ ] Bogotá
 
 # Retos:
-  - [ ] Primer problema
+  - [x] Primer problema
   - [ ] Segundo problema
   - [ ] Tercer problema
