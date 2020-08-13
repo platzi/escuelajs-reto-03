@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Xavier Garcia 
+Usuario Platzi: ElXavs
 
 ## Ciudad
-- [ ] Ciudad de México
+- [x] Ciudad de México //La Paz, Baja California Sur
 - [ ] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [x] Primer problema
+  - [x] Segundo problema
+  - [x] Tercer problema
