@@ -1,13 +1,15 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Luis Raymundo Solís Peralta
+Usuario Platzi: raymundo-sp
 
 ## Ciudad
-- [ ] Ciudad de México
+
+- [x] Ciudad de México
 - [ ] Bogotá
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+
+- [x] Primer problema
+- [x] Segundo problema
+- [x] Tercer problema
