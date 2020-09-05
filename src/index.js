@@ -4,18 +4,20 @@ var API = 'https://rickandmortyapi.com/api/character/';
 var xhttp = new XMLHttpRequest();
 
 function fetchData(url_api, callback) {
+  xhttp.open('GET', url_api, false);
+
   xhttp.onreadystatechange = function (event) {
-    if (xhttp.readyState === '4') {
-      if (xhttp.status == 200)
-        callback(null, xhttp.responseText);
+    if (xhttp.readyState === 4) {
+      if (xhttp.status === 200)
+        callback(null, JSON.parse(xhttp.responseText));
       else return callback(url_api);
     }
   };
-  xhttp.open('GET', url_api, false);
   xhttp.send();
 };
 
 fetchData(API, function (error1, data1) {
+  console.log(data1.results);
   if (error1) return console.error('Error' + ' ' + error1);
   console.log('Primer Llamado...')
   fetchData(API + data1.results[0].id, function (error2, data2) {

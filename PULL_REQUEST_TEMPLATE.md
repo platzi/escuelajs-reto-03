@@ -1,13 +1,13 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Michael Alexander Espinosa Rico
+Usuario Platzi: Maes
 
 ## Ciudad
 - [ ] Ciudad de México
-- [ ] Bogotá
+- [X] Bogotá
 
 # Retos:
-  - [ ] Primer problema
+  - [X] Primer problema
   - [ ] Segundo problema
   - [ ] Tercer problema
