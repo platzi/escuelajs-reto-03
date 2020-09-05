@@ -9,5 +9,5 @@ Usuario Platzi: Maes
 
 # Retos:
   - [X] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [X] Segundo problema
+  - [X] Tercer problema
