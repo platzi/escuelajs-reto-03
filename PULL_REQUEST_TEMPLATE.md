@@ -1,13 +1,16 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Francisco Javier Moreno Hinojosa
+Usuario Platzi: frxncismor
 
 ## Ciudad
-- [ ] Ciudad de México
-- [ ] Bogotá
+
+-   [ ] Ciudad de México
+-   [ ] Bogotá
+-   [x] Monterrey, Nuevo León, México.
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+
+-   [x] Primer problema
+-   [x] Segundo problema
+-   [x] Tercer problema
