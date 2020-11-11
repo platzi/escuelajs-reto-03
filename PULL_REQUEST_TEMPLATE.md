@@ -1,13 +1,14 @@
 ## DESCRIPTION
 
-Nombre:
-Usuario Platzi:
+Nombre: Daniel Saavedra
+Usuario Platzi: Huyno5
 
 ## Ciudad
 - [ ] Ciudad de México
 - [ ] Bogotá
+- [X] Yopal
 
 # Retos:
-  - [ ] Primer problema
-  - [ ] Segundo problema
-  - [ ] Tercer problema
+  - [X] Primer problema
+  - [x] Segundo problema
+  - [X] Tercer problema
