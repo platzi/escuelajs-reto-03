@@ -9,17 +9,17 @@ function fetchData(url_api, callback) {
       if (xhttp.status === 200)
         callback(null, JSON.parse(xhttp.responseText));
       else {
-        const error = new Error('Error en el llamado de la API')
+        const error = new Error('Error en el llamado a la API')
         return callback(error, null)
       } 
 
     }
   };
-  xhttp.open('GET', url_api, false);
   xhttp.send();
 };
 
 fetchData(API, function (error1, data1) {
+  console.log(data1.results);
   if (error1) return console.error('Error' + ' ' + error1);
   console.log('Primer Llamado...')
   fetchData(API + data1.results[0].id, function (error2, data2) {
